@@ -1,23 +1,18 @@
 import logging
-from darkskypy.DarkSkyPy import DarkSkyPy
+from darkskypy import DarkSkyPy
 
-logging.basicConfig(level=logging.WARNING)
-logging.getLogger("requests").setLevel(logging.WARNING)
-logging.getLogger("urllib3").setLevel(logging.WARNING)
-# logging.getLogger("darkskypy.DarkSkyPy").setlevel(logging.WARNING)
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger("urllib3").setLevel(level=logging.CRITICAL)
+logging.getLogger("chardet").setLevel(level=logging.CRITICAL)
+logging.getLogger("darkskypy").setLevel(level=logging.DEBUG)
 
 log = logging.getLogger(__name__)
-log.setLevel(level=logging.INFO)
+
 
 def main():
-    log.debug("debug")
-    log.info("info")
-    log.critical("critical")
-    log.warning("warning")
-    log.error("error")
-
     darksky = DarkSkyPy("677540efddd5db9d74337dc6a2da26e6")
-    darksky.weather()
+    weather = darksky.weather(-34.9286, 138.5999)
+    pass
 
 
 if __name__ == "__main__":
