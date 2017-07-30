@@ -14,6 +14,19 @@ __status__ = "Development Pre-alpha"
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
+_languages = {"Arabic": "ar", "Azerbaijani": "az", "Belarusian": "be", "Bulgarian": "bg", "Bosnian": "bs",
+              "Catalan": "ca", "Czech": "cs", "German": "de", "Greek": "el", "English": "en", "Spanish": "es",
+              "Estonian": "et", "French": "fr", "Croatian": "hr", "Hungarian": "hu", "Indonesian": "id",
+              "Italian": "it", "Icelandic": "is", "Georgian": "ka", "Cornish": "kw", "Norwegian Bokmål": "nb",
+              "Dutch": "nl", "Polish": "pl", "Portuguese": "pt", "Russian": "ru", "Slovak": "sk",
+              "Slovenian": "sl", "Serbian": "sr", "Swedish": "sv", "Tetum": "tet", "Turkish": "tr",
+              "Ukrainian": "uk", "Igpay Atinlay": "x-pig-latin", "simplified Chinese": "zh",
+              "traditional Chinese": "zh-tw"}
+
+_units = ["auto", "ca", "uk2", "ui", "si"]
+
+_excludes = ["currently", "minutely", "hourly", "daily", "alerts", "flags"]
+
 
 class DarkSkyPy:
     def __init__(self, api_key=None):
@@ -22,67 +35,86 @@ class DarkSkyPy:
         self._longitude = None
         self._response = None
         self._weather = None
+        self._language = _languages["English"]
+        self._units = "si"
+        self._extend = False
+        self._exclude = []
 
         self.api_key = api_key
 
     @property
-    def api_key(self):
+    def api_key(self) -> str:
         return self._api_key
 
     @property
-    def latitude(self):
+    def latitude(self) -> float:
         return self._latitude
 
     @property
-    def longitude(self):
+    def longitude(self) -> float:
         return self._longitude
 
     @property
-    def url(self):
-        if self.latitude is None or self.longitude is None:
-            log.warning("Can't build url, longitude or latitude is 'None'. Returning 'None'")
-            return None
-        return "https://api.darksky.net/forecast/{}/{},{}".format(self.api_key, self.latitude, self.longitude)
+    def url(self) -> str:
+        assert type(self.latitude) is float, "latitude must be <class 'float'>, is type {}".format(type(self.latitude))
+        assert type(self.longitude) is float, "longitude must be <class 'float'>, is type {}".format(type(self.longitude))
+
+        url = "https://api.darksky.net/forecast/{}/{},{}?units={}&lang={}".format(self.api_key, self.latitude,
+                                                                                  self.longitude, self._units,
+                                                                                  self._language)
+        if len(self._exclude) > 0:
+            url += "&exclude="
+            for e in self._excludes:
+                url += "{},".format(e)
+            url = url.strip(",")
+
+        if self._extend:
+            url += "&extend=hourly"
+
+        return url
 
     @property
-    def api_call_count(self):
-        try:
-            return self._response.headers["x-forecast-api-calls"]
-        except AttributeError as e:
-            log.warning(e)
-            return None
+    def languages(self):
+        return _languages.keys()
 
     @property
-    def response_time(self):
-        try:
-            return self._response.headers["x-response-time"]
-        except AttributeError as e:
-            log.warning(e)
-            return None
+    def units(self) -> str:
+        return self._units
 
     @property
-    def response_date(self):
-        try:
-            return self._response.headers["date"]
-        except AttributeError as e:
-            log.warning(e)
-            return None
+    def extend(self) -> bool:
+        return self._extend
+
+    @property
+    def api_call_count(self) -> str:
+        return self._response.headers["x-forecast-api-calls"]
+
+    @property
+    def response_time(self) -> str:
+        return self._response.headers["x-response-time"]
+
+    @property
+    def response_date(self) -> str:
+        return self._response.headers["date"]
 
     @property
     def response_status_code(self):
-        try:
-            return self._response.status_code
-        except AttributeError as e:
-            log.warning(e)
-            return None
+        return self._response.status_code
+
+    @property
+    def languages(self):
+        return _languages.keys()
+
+    @property
+    def language(self):
+        return _languages.keys()
 
     @api_key.setter
     def api_key(self, api_key: str):
-        if type(api_key) is not str:
-            raise TypeError("api key must be 'str'. Received type {}".format(type(api_key)))
+        api_key = str(api_key)
 
         if len(api_key) != 32:
-            raise ValueError("api key must be 32 characters long.")
+            raise ValueError("api_key must be 32 characters long.")
 
         self._api_key = api_key
 
@@ -100,10 +132,10 @@ class DarkSkyPy:
         if longitude is not None:
             self.longitude = longitude
 
-        if self.url is None:
-            return None
-
         self._response = requests.get(self.url)
-        if self._response.status_code == 200:
-            self._weather = Weather(self._response.text)
-            return self._weather
+        self._response.raise_for_status()
+
+        self._weather = Weather(self._response.text)
+        return self._weather
+
+
