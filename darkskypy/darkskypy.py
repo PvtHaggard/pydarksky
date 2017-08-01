@@ -120,9 +120,6 @@ class DarkSkyPy:
     def response_units(self):
         return self._units
 
-    # TODO: Extend setter
-
-    # TODO: Excludes setter
     '''
     Raises ValueError 
     '''
@@ -148,6 +145,33 @@ class DarkSkyPy:
     @longitude.setter
     def longitude(self, longitude: float):
         self._longitude = float(longitude)
+
+    '''
+    Raises TypeError
+    '''
+    @extend.setter
+    def extend(self, extend):
+        self.extend = bool(extend)
+
+    '''
+    Raises TypeError
+    Raises ValueError
+    '''
+    @exclude.setter
+    def exclude(self, excludes):
+        if type(excludes) is str:
+            if excludes in _excludes:
+                self._exclude = [excludes]
+        elif type(excludes) is list:
+            tmp = []
+            for exclude in excludes:
+                if exclude in _excludes:
+                    tmp.append(exclude)
+                else:
+                    raise ValueError("{} is not a valid exclude value".format(exclude))
+            self._exclude = tmp
+        else:
+            raise TypeError
 
     '''
     Raises KeyError
