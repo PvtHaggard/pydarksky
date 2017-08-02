@@ -11,8 +11,7 @@ __maintainer__ = "PvtHaggard"
 __email__ = "pvtgaggard@gmail.com"
 __status__ = "Development Pre-alpha"
 
-log = logging.getLogger(__name__)
-log.addHandler(logging.NullHandler())
+log = logging.getLogger("darkskypy")
 
 _languages = {"Arabic": "ar", "Azerbaijani": "az", "Belarusian": "be", "Bulgarian": "bg", "Bosnian": "bs",
               "Catalan": "ca", "Czech": "cs", "German": "de", "Greek": "el", "English": "en", "Spanish": "es",
@@ -89,6 +88,14 @@ class DarkSkyPy:
         return self._extend
 
     @property
+    def exclude(self):
+        return self._exclude
+
+    @property
+    def excludes(self):
+        return _excludes
+
+    @property
     def api_call_count(self) -> str:
         return self._response.headers["x-forecast-api-calls"]
 
@@ -128,6 +135,7 @@ class DarkSkyPy:
         api_key = str(api_key)
 
         if len(api_key) != 32:
+            log.debug("api_key():api_key must be 32 characters long.")
             raise ValueError("api_key must be 32 characters long.")
 
         self._api_key = api_key
@@ -168,10 +176,12 @@ class DarkSkyPy:
                 if exclude in _excludes:
                     tmp.append(exclude)
                 else:
-                    raise ValueError("{} is not a valid exclude value".format(exclude))
+                    log.debug("exclude():'{}' is not a valid exclude value".format(exclude))
+                    raise ValueError("'{}' is not a valid exclude value".format(exclude))
             self._exclude = tmp
         else:
-            raise TypeError
+            log.debug("exclude():excludes must be type '<class 'str'>' was type '{}'".format(type(excludes)))
+            raise TypeError("excludes must be type '<class 'str'>' was type '{}'".format(type(excludes)))
 
     '''
     Raises KeyError
