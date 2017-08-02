@@ -1,6 +1,13 @@
 import unittest
+import logging
 
 from darkskypy import DarkSkyPy
+
+logging.basicConfig(level=logging.INFO)
+logging.getLogger("darkskypy")
+
+_adelaide_lat = -34.9285
+_adelaide_long = 138.6005
 
 
 class TestCase(unittest.TestCase):
@@ -28,10 +35,10 @@ class TestCase(unittest.TestCase):
             darksky.weather()
 
     def test_url_basic_pass(self):
-        url = "https://api.darksky.net/forecast/00000000000000000000000000000000/-1.2,1.2?units=si&lang=en"
+        url = "https://api.darksky.net/forecast/00000000000000000000000000000000/-34.9285,138.6005?units=si&lang=en"
         darksky = DarkSkyPy("0" * 32)
-        darksky.longitude = 1.2
-        darksky.latitude = -1.2
+        darksky.longitude = _adelaide_long
+        darksky.latitude = _adelaide_lat
         self.assertEqual(darksky.url, url)
 
     def test_lang_set_pass(self):
@@ -54,6 +61,32 @@ class TestCase(unittest.TestCase):
         with self.assertRaises(AssertionError):
             darksky.response_units = "bad units"
 
+    def test_exclude_set_list_pass(self):
+        darksky = DarkSkyPy("0" * 32)
+        excludes = darksky.excludes
+        darksky.exclude = [excludes[0], excludes[1]]
+
+    def test_exclude_set_str_pass(self):
+        darksky = DarkSkyPy("0" * 32)
+        darksky.exclude = "currently"
+
+    def test_exclude_set_fail(self):
+        darksky = DarkSkyPy("0" * 32)
+        excludes = darksky.excludes
+        with self.assertRaises(ValueError):
+            darksky.exclude = [excludes[0], "bad val"]
+
+    def test_exclude_set_int_fail(self):
+        darksky = DarkSkyPy("0" * 32)
+        with self.assertRaises(TypeError):
+            darksky.exclude = 1234
+
+    def test_url_exclude_pass(self):
+        darksky = DarkSkyPy("0" * 32)
+        darksky.exclude = ["minutely", "hourly", "daily", "alerts", "flags"]
+        darksky.longitude = _adelaide_long
+        darksky.latitude = _adelaide_lat
+        self.assertEqual(darksky.url, "https://api.darksky.net/forecast/00000000000000000000000000000000/-34.9285,138.6005?units=si&lang=en&exclude=minutely,hourly,daily,alerts,flags")
 
 if __name__ == '__main__':
     unittest.main()
