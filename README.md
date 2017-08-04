@@ -1,1 +1,11 @@
-darkskypy
+Darkskypy!
+======== 
+![Travis-ci build status](https://api.travis-ci.org/PvtHaggard/darkskypy.svg)
+
+
+
+Darkskypy is a work in progress wrapper for the [darksky](https://www.darksky.net) API.
+
+-----
+
+This is the first python library I have written so any advice and help will be greatly appreciated.
