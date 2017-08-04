@@ -11,9 +11,10 @@ from darkskypy import Weather
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("darkskypy")
 
-# assert os.path.isfile("testdata.json"), "JSON file missing can not run tests"
-logging.info(os.listdir(os.curdir))
-with open("testdata.json") as f:
+tmp_path = os.path.join(sys.path[0], 'tests')
+tmp_path = os.path.join(tmp_path, "testdata.json")
+assert os.path.isfile(tmp_path), "JSON file missing can not run tests"
+with open(tmp_path) as f:
     test_json = f.read()
 
 
