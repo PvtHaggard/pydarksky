@@ -19,7 +19,8 @@ with open(tmp_path) as f:
 
 
 class TestCase(unittest.TestCase):
-    pass
+    def test_weather_init(self):
+        Weather(test_json)
 
 
 if __name__ == '__main__':
