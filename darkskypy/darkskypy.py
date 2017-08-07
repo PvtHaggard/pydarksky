@@ -43,22 +43,26 @@ class DarkSkyPy:
         self.api_key = api_key
 
     @property
-    def api_key(self) -> str:
+    def api_key(self):
+        # type:() -> str
         return self._api_key
 
     @property
-    def latitude(self) -> float:
+    def latitude(self):
+        # type:() -> float
         return self._latitude
 
     @property
-    def longitude(self) -> float:
+    def longitude(self):
+        # type:() -> float
         return self._longitude
 
     '''
     Raises AssertionError
     '''
     @property
-    def url(self) -> str:
+    def url(self):
+        # type:() -> str
         assert type(self.latitude) is float, "latitude must be <class 'float'>, is type {}".format(type(self.latitude))
         assert type(self.longitude) is float, "longitude must be <class 'float'>, is type {}".format(type(self.longitude))
 
@@ -81,11 +85,13 @@ class DarkSkyPy:
         return _languages.keys()
 
     @property
-    def units(self) -> str:
+    def units(self):
+        # type:() -> str
         return self._units
 
     @property
-    def extend(self) -> bool:
+    def extend(self):
+        # type:() -> bool
         return self._extend
 
     @property
@@ -95,21 +101,26 @@ class DarkSkyPy:
     @property
     def excludes(self):
         return _excludes
+        # type:() -> list
 
     @property
-    def api_call_count(self) -> str:
+    def api_call_count(self):
+        # type:() -> str
         return self._response.headers["x-forecast-api-calls"]
 
     @property
-    def response_time(self) -> str:
+    def response_time(self):
+        # type:() -> str
         return self._response.headers["x-response-time"]
 
     @property
-    def response_date(self) -> str:
+    def response_date(self):
+        # type:() -> str
         return self._response.headers["date"]
 
     @property
     def response_status_code(self):
+        # type:() -> int
         return self._response.status_code
 
     @property
@@ -118,21 +129,25 @@ class DarkSkyPy:
 
     @property
     def response_lang(self):
+        # type:() -> str
         return self._language
 
     @property
     def units(self):
         return _units
+        # type:() -> list
 
     @property
     def response_units(self):
+        # type:() -> str
         return self._units
 
     '''
     Raises ValueError 
     '''
     @api_key.setter
-    def api_key(self, api_key: str):
+    def api_key(self, api_key):
+        # type:(str) -> None
         api_key = str(api_key)
 
         if len(api_key) != 32:
@@ -145,14 +160,16 @@ class DarkSkyPy:
     Raises TypeError
     '''
     @latitude.setter
-    def latitude(self, latitude: float):
+    def latitude(self, latitude):
+        # type:(float) -> None
         self._latitude = float(latitude)
 
     '''
     Raises TypeError
     '''
     @longitude.setter
-    def longitude(self, longitude: float):
+    def longitude(self, longitude):
+        # type:(float) -> None
         self._longitude = float(longitude)
 
     '''
@@ -160,6 +177,7 @@ class DarkSkyPy:
     '''
     @extend.setter
     def extend(self, extend):
+        # type:(str) -> None
         self.extend = bool(extend)
 
     '''
@@ -190,16 +208,20 @@ class DarkSkyPy:
     @response_lang.setter
     def response_lang(self, language):
         self._language = _languages[language]
+        # type:(str) -> None
 
     '''
     Raises KeyError
     '''
     @response_units.setter
     def response_units(self, units):
-        assert units in _units, "{} is not a valid unit type".format(units)
+        # type:(str) -> None
+        # TODO: Should raise TypeError
+        assert units in UNITS, "{} is not a valid unit type".format(units)
         self._units = units
 
     def weather(self, latitude=None, longitude=None):
+        # type:(float, float) -> Weather
         if latitude is not None:
             self.latitude = latitude
         if longitude is not None:

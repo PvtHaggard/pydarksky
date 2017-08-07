@@ -14,7 +14,8 @@ log.addHandler(logging.NullHandler())
 
 
 class Currently:
-    def __init__(self, data: dict):
+    def __init__(self, data):
+        # type:(dict) -> None
         self.time = data.get("time", None)
         self.summary = data.get("summary", None)
         self.icon = data.get("icon", None)

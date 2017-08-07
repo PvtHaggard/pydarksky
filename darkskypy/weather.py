@@ -18,7 +18,8 @@ log.addHandler(logging.NullHandler())
 
 
 class Weather:
-    def __init__(self, json_raw: str):
+    def __init__(self, json_raw):
+        # type:(str) -> None
         self.json = json.loads(json_raw)
         self.latitude = self.json["latitude"]
         self.longitude = self.json["longitude"]
