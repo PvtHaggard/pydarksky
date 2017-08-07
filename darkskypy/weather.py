@@ -29,11 +29,3 @@ class Weather:
             self.currently = Currently(self.json["currently"])
         else:
             self.currently = None
-
-
-
-tmp_path = "testdata.json"
-assert os.path.isfile(tmp_path), "JSON file missing can not run tests"
-with open(tmp_path) as f:
-    test_json = f.read()
-Weather(test_json)
