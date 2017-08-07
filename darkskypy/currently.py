@@ -13,13 +13,13 @@ log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
 
-class Weather:
+class Currently:
     def __init__(self, data: dict):
         self.time = data.get("time", None)
         self.summary = data.get("summary", None)
         self.icon = data.get("icon", None)
-        self.precip_intensity = data.get("precipIntensity", None)
-        self.precip_probability = data.get("precipProbability", None)
+        self.precipitation_intensity = data.get("precipIntensity", None)
+        self.precipitation_probability = data.get("precipProbability", None)
         self.temperature = data.get("temperature", None)
         self.apparent_temperature = data.get("apparentTemperature", None)
         self.dew_point = data.get("dewPoint", None)
