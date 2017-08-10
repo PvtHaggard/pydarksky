@@ -30,3 +30,8 @@ class Weather:
             self.currently = Currently(self.json["currently"])
         else:
             self.currently = None
+
+        if "daily" in self.json:
+            self.currently = Daily(self.json["daily"])
+        else:
+            self.currently = None
