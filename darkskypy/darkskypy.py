@@ -15,7 +15,7 @@ __status__ = "Development Pre-alpha"
 log = logging.getLogger("darkskypy")
 
 
-class DarkSkyPy:
+class DarkSkyPy(object):
     _LANGS = {"auto": "auto", "Arabic": "ar", "Azerbaijani": "az", "Belarusian": "be", "Bulgarian": "bg",
               "Bosnian": "bs", "Catalan": "ca", "Czech": "cs", "German": "de", "Greek": "el", "English": "en",
               "Spanish": "es", "Estonian": "et", "French": "fr", "Croatian": "hr", "Hungarian": "hu",
@@ -36,7 +36,7 @@ class DarkSkyPy:
         self._response = None
         self._weather = None
         self._lang = self._LANGS["auto"]
-        self._units = "si"
+        self._units = "auto"
         self._extend = False
         self._exclude = []
 
@@ -69,9 +69,11 @@ class DarkSkyPy:
         assert type(self.longitude) is float, "longitude must be <class 'float'>, is type {}".format(
             type(self.longitude))
 
-        url = "https://api.darksky.net/forecast/{}/{},{}?units={}&lang={}".format(self.api_key, self.latitude,
-                                                                                  self.longitude, self._units,
-                                                                                  self._lang)
+        url = "https://api.darksky.net/forecast/{}/{},{}?units={}".format(self.api_key, self.latitude,
+                                                                                  self.longitude, self._units)
+        if self.lang != "auto":
+            url += "&lang={}".format(self.lang)
+
         if len(self._exclude) > 0:
             url += "&exclude="
             for e in self._exclude:

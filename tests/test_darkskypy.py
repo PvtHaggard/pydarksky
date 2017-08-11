@@ -39,7 +39,7 @@ class TestCase(unittest.TestCase):
             darksky.weather()
 
     def test_url_basic_pass(self):
-        url = "https://api.darksky.net/forecast/00000000000000000000000000000000/-34.9285,138.6005?units=si&lang=en"
+        url = "https://api.darksky.net/forecast/00000000000000000000000000000000/-34.9285,138.6005?units=auto"
         darksky = DarkSkyPy("0" * 32)
         darksky.longitude = _adelaide_long
         darksky.latitude = _adelaide_lat
@@ -90,7 +90,7 @@ class TestCase(unittest.TestCase):
         darksky.exclude = ["minutely", "hourly", "daily", "alerts", "flags"]
         darksky.longitude = _adelaide_long
         darksky.latitude = _adelaide_lat
-        self.assertEqual(darksky.url, "https://api.darksky.net/forecast/00000000000000000000000000000000/-34.9285,138.6005?units=si&lang=en&exclude=minutely,hourly,daily,alerts,flags")
+        self.assertEqual(darksky.url, "https://api.darksky.net/forecast/00000000000000000000000000000000/-34.9285,138.6005?units=auto&exclude=minutely,hourly,daily,alerts,flags")
 
 if __name__ == '__main__':
     unittest.main()
