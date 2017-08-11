@@ -1,0 +1,16 @@
+language: python
+python:
+  - "2.7"
+  # Removed due to broken requests module - "3.2"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.5-dev" # 3.5 development branch
+  - "3.6"
+  - "3.6-dev" # 3.6 development branch
+# command to install dependencies
+install: "pip install requests"
+# command to run tests
+script:
+- python tests/test_darkskypy.py
+- python tests/test_weather.py
