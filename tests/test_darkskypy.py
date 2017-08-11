@@ -47,27 +47,27 @@ class TestCase(unittest.TestCase):
 
     def test_lang_set_pass(self):
         darksky = DarkSkyPy("0" * 32)
-        darksky.response_lang = "Arabic"
-        self.assertEqual(darksky.response_lang, "ar")
+        darksky.lang = "Arabic"
+        self.assertEqual(darksky.lang, "ar")
 
     def test_lang_set_fail(self):
         darksky = DarkSkyPy("0" * 32)
         with self.assertRaises(KeyError):
-            darksky.response_lang = "bad key"
+            darksky.lang = "bad key"
 
     def test_units_set_pass(self):
         darksky = DarkSkyPy("0" * 32)
-        darksky.response_units = "ui"
-        self.assertEqual(darksky.response_units, "ui")
+        darksky.units = "ui"
+        self.assertEqual(darksky.units, "ui")
 
     def test_units_set_fail(self):
         darksky = DarkSkyPy("0" * 32)
-        with self.assertRaises(AssertionError):
-            darksky.response_units = "bad units"
+        with self.assertRaises(ValueError):
+            darksky.units = "bad units"
 
     def test_exclude_set_list_pass(self):
         darksky = DarkSkyPy("0" * 32)
-        excludes = darksky.excludes
+        excludes = darksky.EXCLUDES
         darksky.exclude = [excludes[0], excludes[1]]
 
     def test_exclude_set_str_pass(self):
@@ -76,7 +76,7 @@ class TestCase(unittest.TestCase):
 
     def test_exclude_set_fail(self):
         darksky = DarkSkyPy("0" * 32)
-        excludes = darksky.excludes
+        excludes = darksky.EXCLUDES
         with self.assertRaises(ValueError):
             darksky.exclude = [excludes[0], "bad val"]
 

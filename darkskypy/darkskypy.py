@@ -14,28 +14,28 @@ __status__ = "Development Pre-alpha"
 
 log = logging.getLogger("darkskypy")
 
-_languages = {"Arabic": "ar", "Azerbaijani": "az", "Belarusian": "be", "Bulgarian": "bg", "Bosnian": "bs",
-              "Catalan": "ca", "Czech": "cs", "German": "de", "Greek": "el", "English": "en", "Spanish": "es",
-              "Estonian": "et", "French": "fr", "Croatian": "hr", "Hungarian": "hu", "Indonesian": "id",
-              "Italian": "it", "Icelandic": "is", "Georgian": "ka", "Cornish": "kw", "Norwegian Bokmål": "nb",
-              "Dutch": "nl", "Polish": "pl", "Portuguese": "pt", "Russian": "ru", "Slovak": "sk",
-              "Slovenian": "sl", "Serbian": "sr", "Swedish": "sv", "Tetum": "tet", "Turkish": "tr",
-              "Ukrainian": "uk", "Igpay Atinlay": "x-pig-latin", "simplified Chinese": "zh",
-              "traditional Chinese": "zh-tw"}
-
-_units = ["auto", "ca", "uk2", "ui", "si"]
-
-_excludes = ["currently", "minutely", "hourly", "daily", "alerts", "flags"]
-
 
 class DarkSkyPy:
+    _LANGS = {"auto": "auto", "Arabic": "ar", "Azerbaijani": "az", "Belarusian": "be", "Bulgarian": "bg",
+              "Bosnian": "bs", "Catalan": "ca", "Czech": "cs", "German": "de", "Greek": "el", "English": "en",
+              "Spanish": "es", "Estonian": "et", "French": "fr", "Croatian": "hr", "Hungarian": "hu",
+              "Indonesian": "id", "Italian": "it", "Icelandic": "is", "Georgian": "ka", "Cornish": "kw",
+              "Norwegian Bokmål": "nb", "Dutch": "nl", "Polish": "pl", "Portuguese": "pt", "Russian": "ru",
+              "Slovak": "sk", "Slovenian": "sl", "Serbian": "sr", "Swedish": "sv", "Tetum": "tet",
+              "Turkish": "tr", "Ukrainian": "uk", "Igpay Atinlay": "x-pig-latin", "simplified Chinese": "zh",
+              "traditional Chinese": "zh-tw"}
+
+    _UNITS = ["auto", "ca", "uk2", "ui", "si"]
+
+    _EXCLUDES = ["currently", "minutely", "hourly", "daily", "alerts", "flags"]
+
     def __init__(self, api_key=None):
         self._api_key = None
         self._latitude = None
         self._longitude = None
         self._response = None
         self._weather = None
-        self._language = _languages["English"]
+        self._lang = self._LANGS["auto"]
         self._units = "si"
         self._extend = False
         self._exclude = []
@@ -60,15 +60,18 @@ class DarkSkyPy:
     '''
     Raises AssertionError
     '''
+
     @property
     def url(self):
         # type:() -> str
-        assert type(self.latitude) is float, "latitude must be <class 'float'>, is type {}".format(type(self.latitude))
-        assert type(self.longitude) is float, "longitude must be <class 'float'>, is type {}".format(type(self.longitude))
+        assert type(self.latitude) is float, "latitude must be <class 'float'>, is type {}".format(
+            type(self.latitude))
+        assert type(self.longitude) is float, "longitude must be <class 'float'>, is type {}".format(
+            type(self.longitude))
 
         url = "https://api.darksky.net/forecast/{}/{},{}?units={}&lang={}".format(self.api_key, self.latitude,
                                                                                   self.longitude, self._units,
-                                                                                  self._language)
+                                                                                  self._lang)
         if len(self._exclude) > 0:
             url += "&exclude="
             for e in self._exclude:
@@ -81,15 +84,6 @@ class DarkSkyPy:
         return url
 
     @property
-    def languages(self):
-        return _languages.keys()
-
-    @property
-    def units(self):
-        # type:() -> str
-        return self._units
-
-    @property
     def extend(self):
         # type:() -> bool
         return self._extend
@@ -99,8 +93,8 @@ class DarkSkyPy:
         return self._exclude
 
     @property
-    def excludes(self):
-        return _excludes
+    def EXCLUDES(self):
+        return self._EXCLUDES
         # type:() -> list
 
     @property
@@ -124,27 +118,28 @@ class DarkSkyPy:
         return self._response.status_code
 
     @property
-    def languages(self):
-        return _languages.keys()
+    def LANG(self):
+        return self._LANGS.keys()
 
     @property
-    def response_lang(self):
+    def lang(self):
         # type:() -> str
-        return self._language
+        return self._lang
 
     @property
-    def units(self):
-        return _units
+    def UNITS(self):
+        return _UNITS
         # type:() -> list
 
     @property
-    def response_units(self):
+    def units(self):
         # type:() -> str
         return self._units
 
     '''
     Raises ValueError 
     '''
+
     @api_key.setter
     def api_key(self, api_key):
         # type:(str) -> None
@@ -159,6 +154,7 @@ class DarkSkyPy:
     '''
     Raises TypeError
     '''
+
     @latitude.setter
     def latitude(self, latitude):
         # type:(float) -> None
@@ -167,6 +163,7 @@ class DarkSkyPy:
     '''
     Raises TypeError
     '''
+
     @longitude.setter
     def longitude(self, longitude):
         # type:(float) -> None
@@ -175,6 +172,7 @@ class DarkSkyPy:
     '''
     Raises TypeError
     '''
+
     @extend.setter
     def extend(self, extend):
         # type:(str) -> None
@@ -184,20 +182,21 @@ class DarkSkyPy:
     Raises TypeError
     Raises ValueError
     '''
+
     @exclude.setter
     def exclude(self, excludes):
         if type(excludes) is str:
-            if excludes in _excludes:
+            if excludes in self._EXCLUDES:
                 self._exclude = [excludes]
         elif type(excludes) is list:
-            tmp = []
+            _e = []
             for exclude in excludes:
-                if exclude in _excludes:
-                    tmp.append(exclude)
+                if exclude in self._EXCLUDES:
+                    _e.append(exclude)
                 else:
                     log.debug("exclude():'{}' is not a valid exclude value".format(exclude))
                     raise ValueError("'{}' is not a valid exclude value".format(exclude))
-            self._exclude = tmp
+            self._exclude = _e
         else:
             log.debug("exclude():excludes must be type '<class 'str'>' was type '{}'".format(type(excludes)))
             raise TypeError("excludes must be type '<class 'str'>' was type '{}'".format(type(excludes)))
@@ -205,20 +204,22 @@ class DarkSkyPy:
     '''
     Raises KeyError
     '''
-    @response_lang.setter
-    def response_lang(self, language):
-        self._language = _languages[language]
+
+    @lang.setter
+    def lang(self, language):
         # type:(str) -> None
+        self._lang = self._LANGS[language]
 
     '''
-    Raises KeyError
+    Raises ValueError
     '''
-    @response_units.setter
-    def response_units(self, units):
+
+    @units.setter
+    def units(self, unit):
         # type:(str) -> None
-        # TODO: Should raise TypeError
-        assert units in UNITS, "{} is not a valid unit type".format(units)
-        self._units = units
+        if unit not in self._UNITS:
+            raise ValueError("{} is not a valid unit type".format(unit))
+        self._units = unit
 
     def weather(self, latitude=None, longitude=None):
         # type:(float, float) -> Weather
@@ -232,5 +233,3 @@ class DarkSkyPy:
 
         self._weather = Weather(self._response.text)
         return self._weather
-
-
