@@ -9,8 +9,7 @@ __maintainer__ = "PvtHaggard"
 __email__ = "pvtgaggard@gmail.com"
 __status__ = "Development Pre-alpha"
 
-log = logging.getLogger(__name__)
-log.addHandler(logging.NullHandler())
+log = logging.getLogger("darkskypy")
 
 
 class Daily:
