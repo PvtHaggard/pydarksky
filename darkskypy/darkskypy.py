@@ -230,7 +230,7 @@ class DarkSkyPy(object):
         if longitude is not None:
             self.longitude = longitude
 
-        self._response = requests.get(self.url)
+        self._response = requests.get(self.url, headers={"Accept-Encoding": "gzip"})
         self._response.raise_for_status()
 
         self._weather = Weather(self._response.text)
