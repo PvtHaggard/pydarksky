@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from darkskypy import DarkSkyPy
 
 logging.basicConfig(level=logging.INFO)
-logging.getLogger("darkskypy")
+logging.getLogger("darkskypy").disabled = True
 
 _adelaide_lat = -34.9285
 _adelaide_long = 138.6005
@@ -91,6 +91,11 @@ class TestCase(unittest.TestCase):
         darksky.longitude = _adelaide_long
         darksky.latitude = _adelaide_lat
         self.assertEqual(darksky.url, "https://api.darksky.net/forecast/00000000000000000000000000000000/-34.9285,138.6005?units=auto&exclude=minutely,hourly,daily,alerts,flags")
+
+    def test_extend_set_pass(self):
+        darksky = DarkSkyPy("0" * 32)
+        darksky.extend = True
+        darksky.extend = False
 
 if __name__ == '__main__':
     unittest.main()
