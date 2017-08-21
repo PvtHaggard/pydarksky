@@ -121,7 +121,7 @@ class DarkSkyPy(object):
         return self._response.status_code
 
     @property
-    def LANG(self):
+    def LANGS(self):
         # type:() -> dict_keys
         return self._LANGS.keys()
 
