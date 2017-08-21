@@ -11,10 +11,17 @@ Pydarksky is a work in progress wrapper for the [Dark Sky](https://www.darksky.n
 This is the first python library I have written so any advice and help will be greatly appreciated.
 
 ----
+# Install
+Python versions 2.7, 3.3+
+```
+pip install pydarksky
+```
 
 # Basic usage
 Example uses [Arrow](https://github.com/crsmithdev/arrow) for timestamp conversion.
 ```python
+from pydarksky import DarkSky, Weather
+
 darksky = DarkSky(api_key)
 darksky.latitude = -34.9285
 darksky.longitude = 138.6005
