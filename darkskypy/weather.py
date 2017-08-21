@@ -102,39 +102,39 @@ class Weather:
             return Alerts(self.json["alerts"], self)
 
 
-class Data:
+class WeatherData:
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
-        self.weather = parent
-        self.time = data.get("time", None)
-        self.wind_bearing = data.get("windBearing", None)
-        self.wind_gust = data.get("windGust", None)
-        self.wind_speed = data.get("windSpeed", None)
-        self.uv_index = data.get("uvIndex", None)
-        self.visibility = data.get("visibility", None)
-        self.summary = data.get("summary", None)
-
-
-class Currently(Data):
-    def __init__(self, data, parent=None):
-        # type:(dict, Weather) -> None
-        super().__init__(data, parent)
-        self.apparent_temperature = data.get("apparentTemperature", None)
         self.cloud_cover = data.get("cloudCover", None)
         self.dew_point = data.get("dewPoint", None)
         self.humidity = data.get("humidity", None)
         self.icon = data.get("icon", None)
         self.ozone = data.get("ozone", None)
+        self.pressure = data.get("pressure", None)
+        self.summary = data.get("summary", None)
+        self.time = data.get("time", None)
+        self.uv_index = data.get("uvIndex", None)
+        self.visibility = data.get("visibility", None)
+        self.weather = parent
+        self.wind_bearing = data.get("windBearing", None)
+        self.wind_gust = data.get("windGust", None)
+        self.wind_speed = data.get("windSpeed", None)
+
+
+class Currently(WeatherData):
+    def __init__(self, data, parent=None):
+        # type:(dict, Weather) -> None
+        super().__init__(data, parent)
+        self.apparent_temperature = data.get("apparentTemperature", None)
         self.precipitation_intensity = data.get("precipIntensity", None)
         self.precipitation_probability = data.get("precipProbability", None)
         self.precipitation_Type = data.get("precipType", None)
-        self.pressure = data.get("pressure", None)
         self.storm_bearing = data.get("nearestStormBearing")
         self.storm_distance = data.get("nearestStormDistance")
         self.temperature = data.get("temperature", None)
 
 
-class Daily(Data):
+class Daily(WeatherData):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         super().__init__(data, parent)
@@ -142,19 +142,13 @@ class Daily(Data):
         self.apparent_temperature_max_time = data.get("apparentTemperatureMaxTime", None)
         self.apparent_temperature_min = data.get("apparentTemperatureMin", None)
         self.apparent_temperature_min_time = data.get("apparentTemperatureMinTime", None)
-        self.cloud_cover = data.get("cloudCover", None)
-        self.dew_point = data.get("dewPoint", None)
-        self.humidity = data.get("humidity", None)
-        self.icon = data.get("icon", None)
         self.moon_phase = data.get("moonPhase", None)
-        self.ozone = data.get("ozone", None)
         self.precipitation_accumulation = data.get("precipAccumulation", None)
         self.precipitation_intensity = data.get("precipIntensity", None)
         self.precipitation_intensity_max = data.get("precipIntensityMax", None)
         self.precipitation_intensity_max_time = data.get("precipIntensityMaxTime", None)
         self.precipitation_probability = data.get("precipProbability", None)
         self.precipitation_type = data.get("precipType", None)
-        self.pressure = data.get("pressure", None)
         self.sunrise_time = data.get("sunriseTime", None)
         self.sunset_time = data.get("sunsetTime", None)
         self.temperature = data.get("temperature", None)
@@ -166,41 +160,29 @@ class Daily(Data):
         self.wind_gust_time = data.get("windGustTime", None)
 
 
-class Hourly(Data):
+class Hourly(WeatherData):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         super().__init__(data, parent)
         self.apparent_temperature = data.get("apparentTemperature", None)
-        self.cloud_cover = data.get("cloudCover", None)
-        self.dew_point = data.get("dewPoint", None)
-        self.humidity = data.get("humidity", None)
-        self.icon = data.get("icon", None)
-        self.ozone = data.get("ozone", None)
         self.precipitation_accumulation = data.get("precipAccumulation", None)
         self.precipitation_intensity = data.get("precipIntensity", None)
         self.precipitation_probability = data.get("precipProbability", None)
         self.precipitation_Type = data.get("precipType", None)
-        self.pressure = data.get("pressure", None)
         self.storm_bearing = data.get("nearestStormBearing")
         self.storm_distance = data.get("nearestStormDistance")
         self.temperature = data.get("temperature", None)
 
 
-class Minutely(Data):
+class Minutely(WeatherData):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         super().__init__(data, parent)
         self.apparent_temperature = data.get("apparentTemperature", None)
-        self.cloud_cover = data.get("cloudCover", None)
-        self.dew_point = data.get("dewPoint", None)
-        self.humidity = data.get("humidity", None)
-        self.icon = data.get("icon", None)
-        self.ozone = data.get("ozone", None)
         self.precipitation_accumulation = data.get("precipAccumulation", None)
         self.precipitation_intensity = data.get("precipIntensity", None)
         self.precipitation_probability = data.get("precipProbability", None)
         self.precipitation_Type = data.get("precipType", None)
-        self.pressure = data.get("pressure", None)
         self.storm_bearing = data.get("nearestStormBearing")
         self.storm_distance = data.get("nearestStormDistance")
 
