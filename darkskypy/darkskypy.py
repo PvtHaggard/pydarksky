@@ -57,10 +57,6 @@ class DarkSkyPy(object):
         # type:() -> float
         return self._longitude
 
-    '''
-    Raises AssertionError
-    '''
-
     @property
     def url(self):
         # type:() -> str
@@ -140,10 +136,6 @@ class DarkSkyPy(object):
         # type:() -> str
         return self._units
 
-    '''
-    Raises ValueError 
-    '''
-
     @api_key.setter
     def api_key(self, api_key):
         # type:(str) -> None
@@ -155,37 +147,20 @@ class DarkSkyPy(object):
 
         self._api_key = api_key
 
-    '''
-    Raises TypeError
-    '''
-
     @latitude.setter
     def latitude(self, latitude):
         # type:(float) -> None
         self._latitude = float(latitude)
-
-    '''
-    Raises TypeError
-    '''
 
     @longitude.setter
     def longitude(self, longitude):
         # type:(float) -> None
         self._longitude = float(longitude)
 
-    '''
-    Raises TypeError
-    '''
-
     @extend.setter
     def extend(self, extend):
         # type:(str) -> None
         self._extend = bool(extend)
-
-    '''
-    Raises TypeError
-    Raises ValueError
-    '''
 
     @exclude.setter
     def exclude(self, excludes):
@@ -206,18 +181,10 @@ class DarkSkyPy(object):
             log.debug("exclude():excludes must be type '<class 'str'>' was type '{}'".format(type(excludes)))
             raise TypeError("excludes must be type '<class 'str'>' was type '{}'".format(type(excludes)))
 
-    '''
-    Raises KeyError
-    '''
-
     @lang.setter
     def lang(self, language):
         # type:(str) -> None
         self._lang = self._LANGS[language]
-
-    '''
-    Raises ValueError
-    '''
 
     @units.setter
     def units(self, unit):
