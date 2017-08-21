@@ -92,12 +92,13 @@ class DarkSkyPy(object):
 
     @property
     def exclude(self):
+        # type:() -> list
         return self._exclude
 
     @property
     def EXCLUDES(self):
-        return self._EXCLUDES
         # type:() -> list
+        return self._EXCLUDES
 
     @property
     def api_call_count(self):
@@ -121,6 +122,7 @@ class DarkSkyPy(object):
 
     @property
     def LANG(self):
+        # type:() -> dict_keys
         return self._LANGS.keys()
 
     @property
@@ -130,8 +132,8 @@ class DarkSkyPy(object):
 
     @property
     def UNITS(self):
-        return _UNITS
         # type:() -> list
+        return _UNITS
 
     @property
     def units(self):
@@ -187,6 +189,7 @@ class DarkSkyPy(object):
 
     @exclude.setter
     def exclude(self, excludes):
+        # type:(list) -> None
         if type(excludes) is str:
             if excludes in self._EXCLUDES:
                 self._exclude = [excludes]
