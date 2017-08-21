@@ -178,7 +178,7 @@ class DarkSkyPy(object):
     @extend.setter
     def extend(self, extend):
         # type:(str) -> None
-        self.extend = bool(extend)
+        self._extend = bool(extend)
 
     '''
     Raises TypeError
