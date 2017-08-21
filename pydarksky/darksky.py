@@ -15,7 +15,7 @@ __status__ = "Development Pre-alpha"
 log = logging.getLogger("darkskypy")
 
 
-class DarkSkyPy(object):
+class DarkSky(object):
     _LANGS = {"auto": "auto", "Arabic": "ar", "Azerbaijani": "az", "Belarusian": "be", "Bulgarian": "bg",
               "Bosnian": "bs", "Catalan": "ca", "Czech": "cs", "German": "de", "Greek": "el", "English": "en",
               "Spanish": "es", "Estonian": "et", "French": "fr", "Croatian": "hr", "Hungarian": "hu",

@@ -1,6 +1,6 @@
 import logging
 
-from .darkskypy import DarkSkyPy
+from .darksky import DarkSky
 from .weather import Weather
 
 
