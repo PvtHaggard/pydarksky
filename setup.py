@@ -1,13 +1,13 @@
 from setuptools import setup
 
-setup(name='darkskypy',
-      version='0.1d',
+setup(name='pydarksky',
+      version='0.1',
       description='Python wrapper for darksky.net weather service',
-      url='https://github.com/PvtHaggard/darkskypy',
+      url='https://github.com/PvtHaggard/pydarksky',
       author='PvtHaggard',
       author_email='pvthaggard@gmail.com',
       license='GPLv3',
-      packages=['darkskypy'],
+      packages=['pydarksky'],
       install_requires=[
           'requests',
       ],

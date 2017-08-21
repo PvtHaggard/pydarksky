@@ -1,6 +1,6 @@
-Darkskypy!
-======== 
-[![Build Status](https://travis-ci.org/PvtHaggard/darkskypy.svg?branch=master)](https://travis-ci.org/PvtHaggard/darkskypy)
+Pydarksky!
+==========
+[![Build Status](https://travis-ci.org/PvtHaggard/darkskypy.svg?branch=master)](https://travis-ci.org/PvtHaggard/pydarksky)
 
 
 
@@ -15,7 +15,7 @@ This is the first python library I have written so any advice and help will be g
 # Basic usage
 Example uses [Arrow](https://github.com/crsmithdev/arrow) for timestamp conversion.
 ```python
-darksky = DarkSkyPy(api_key)
+darksky = DarkSky(api_key)
 darksky.latitude = -34.9285
 darksky.longitude = 138.6005
 weather = darksky.weather()

@@ -5,8 +5,8 @@ import os
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from darkskypy import DarkSkyPy
-from darkskypy import Weather
+from pydarksky import DarkSky
+from pydarksky import Weather
 
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("darkskypy")
