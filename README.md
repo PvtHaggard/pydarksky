@@ -10,32 +10,44 @@ Pydarksky is a work in progress wrapper for the [Dark Sky](https://www.darksky.n
 
 This is the first python library I have written so any advice and help will be greatly appreciated.
 
+## TODO:
+* Documentation
+    * Docstrings
+    * Readme
+* Unittests
+    * Find weather data with alerts/minutely data for testing
+* Example uses
+
+
 ----
-# Install
+## Install
 Python versions 2.7, 3.3+
 ```
 pip install pydarksky
 ```
 
-# Basic usage
-Example uses [Arrow](https://github.com/crsmithdev/arrow) for timestamp conversion.
+## Basic usage
+Example uses [pendulum](https://github.com/sdispater/pendulum) for timestamp conversion.
 ```python
-from pydarksky import DarkSky, Weather
+import pendulum
+import pydarksky
 
-darksky = DarkSky(api_key)
+pendulum.set_formatter("alternative")
+
+darksky = pydarksky.DarkSky(api_key=API_KEY)
 darksky.latitude = -34.9285
 darksky.longitude = 138.6005
 weather = darksky.weather()
 
 # Current weather
-date = arrow.get(weather.currently.time).to(weather.timezone)
+date = pendulum.from_timestamp(weather.currently.time, tz=weather.timezone)
 print("Time: {}, Temp: {}\n".format(date.format("DD-MM-YY hh:mm"), weather.currently.temperature))
 
 # Iterating over forecast
 for day in weather.daily:
     temp = day.temperature_max
-    date = arrow.get(day.time).to(weather.timezone)
+    date = pendulum.from_timestamp(day.time, tz=weather.timezone)
     print("Date: {}, Max: {}".format(date.format("DD-MM-YY"), temp))
 ```
 
-<img src="https://darksky.net/dev/img/attribution/poweredby-oneline.png" alt="Dark Sky" width="500px"/>
+<a href="https://darksky.net/poweredby/"> <img src="https://darksky.net/dev/img/attribution/poweredby-oneline.png" alt="Dark Sky" width="500px"/></a>
