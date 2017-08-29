@@ -11,7 +11,7 @@ __maintainer__ = "PvtHaggard"
 __email__ = "pvtgaggard@gmail.com"
 __status__ = "Development Pre-alpha"
 
-log = logging.getLogger("darkskypy")
+log = logging.getLogger("pydarksky")
 
 
 class Weather:
@@ -21,27 +21,33 @@ class Weather:
 
     @property
     def latitude(self):
+        # type:() -> float
         return self.json.get("latitude")
 
     @property
     def longitude(self):
+        # type:() -> float
         return self.json.get("longitude")
 
     @property
     def timezone(self):
+        # type:() -> str
         return self.json.get("timezone")
 
     @property
     def offset(self):
+        # type:() -> float
         return self.json.get("offset")
 
     @property
     def currently(self):
+        # type:() -> Currently
         if "currently" in self.json:
             return Currently(self.json["currently"], self)
 
     @property
     def daily(self):
+        # type:() -> list
         if "daily" in self.json:
             daily = []
             for data in self.json["daily"]["data"]:
@@ -50,16 +56,19 @@ class Weather:
 
     @property
     def daily_summary(self):
+        # type:() -> str
         if "daily" in self.json:
             return self.json["daily"].get("summary")
 
     @property
     def daily_icon(self):
+        # type:() -> str
         if "daily" in self.json:
             return self.json["daily"].get("icon")
 
     @property
     def hourly(self):
+        # type:() -> list
         if "hourly" in self.json:
             hourly = []
             for data in self.json["hourly"]["data"]:
@@ -68,17 +77,19 @@ class Weather:
 
     @property
     def hourly_summary(self):
+        # type:() -> str
         if "hourly" in self.json:
             return self.json["hourly"].get("summary")
 
     @property
     def hourly_icon(self):
+        # type:() -> str
         if "hourly" in self.json:
             return self.json["hourly"].get("icon")
 
-    # TODO: Find a weather report with minutely data for testing
     @property
     def minutely(self):
+        # type:() -> list
         if "minutely" in self.json:
             minutely = []
             for data in self.json["minutely"]["data"]:
@@ -87,17 +98,19 @@ class Weather:
 
     @property
     def minutely_summary(self):
+        # type:() -> str
         if "minutely" in self.json:
             return self.json["minutely"].get("summary")
 
     @property
     def minutely_icon(self):
+        # type:() -> str
         if "minutely" in self.json:
             return self.json["minutely"].get("icon")
 
-    # TODO: Find a weather report with an alert for testing
     @property
     def alerts(self):
+        # type:() -> Alerts
         if "alerts" in self.json:
             return Alerts(self.json["alerts"], self)
 
