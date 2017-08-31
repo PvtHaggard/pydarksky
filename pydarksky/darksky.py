@@ -220,7 +220,7 @@ class DarkSky(object):
     @units.setter
     def units(self, unit):
         # type:(str) -> None
-        if unit not in self._UNITS:
+        if unit not in self.UNITS:
             raise ValueError("{} is not a valid unit type".format(unit))
         self._units = unit
 
