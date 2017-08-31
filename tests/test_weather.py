@@ -3,7 +3,7 @@ import logging
 import sys
 import os
 
-sys.path.insert(0, os.path.abspath(".."))
+sys.path.insert(0, os.path.abspath("."))
 
 from pydarksky import DarkSky
 from pydarksky import Weather
@@ -11,16 +11,20 @@ from pydarksky import Weather
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("darkskypy")
 
-tmp_path = os.path.join(sys.path[0], 'tests')
-tmp_path = os.path.join(tmp_path, "test_data_basic.json")
-assert os.path.isfile(tmp_path), "JSON file missing can not run tests"
-with open(tmp_path) as f:
-    test_json = f.read()
+
+with open(os.path.join(sys.path[0], "test_data_basic.json")) as f:
+    json_basic = f.read()
+
+# with open(os.path.join(sys.path[0], "test_data_minutely.json")) as f:
+#     json_minutely = f.read()
+#
+# with open(os.path.join(sys.path[0], "test_data_alerts.json")) as f:
+#     json_alerts = f.read()
 
 
 class TestCase(unittest.TestCase):
     def test_weather_init(self):
-        Weather(test_json)
+        Weather(json_basic)
 
 
 if __name__ == '__main__':
