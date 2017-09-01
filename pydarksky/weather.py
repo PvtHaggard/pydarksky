@@ -96,25 +96,25 @@ class WeatherData:
 class Currently(WeatherData):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
-        super().__init__(data, parent)
+        WeatherData.__init__(self, data, parent)
 
 
 class Daily(WeatherData):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
-        super().__init__(data, parent)
+        WeatherData.__init__(self, data, parent)
 
 
 class Hourly(WeatherData):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
-        super().__init__(data, parent)
+        WeatherData.__init__(self, data, parent)
 
 
 class Minutely(WeatherData):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
-        super().__init__(data, parent)
+        WeatherData.__init__(self, data, parent)
 
 
 class Alerts:

@@ -12,15 +12,28 @@ from pydarksky import Weather
 logging.basicConfig(level=logging.INFO)
 logging.getLogger("darkskypy")
 
+# For local testing
+if sys.path[0].endswith("tests"):
+    with open(os.path.join(sys.path[0], "test_data_basic.json")) as f:
+        json_basic = f.read()
 
-with open(os.path.join(sys.path[0], "tests/test_data_basic.json")) as f:
-    json_basic = f.read()
+    with open(os.path.join(sys.path[0], "test_data_minutely.json")) as f:
+        json_minutely = f.read()
 
-# with open(os.path.join(sys.path[0], "tests/test_data_minutely.json")) as f:
-#     json_minutely = f.read()
-#
-# with open(os.path.join(sys.path[0], "tests/test_data_alerts.json")) as f:
-#     json_alerts = f.read()
+    with open(os.path.join(sys.path[0], "test_data_alerts.json")) as f:
+        json_alerts = f.read()
+
+# For Travis-ci testing
+else:
+    with open(os.path.join(sys.path[0], "tests/test_data_basic.json")) as f:
+        json_basic = f.read()
+
+    with open(os.path.join(sys.path[0], "tests/test_data_minutely.json")) as f:
+        json_minutely = f.read()
+
+    with open(os.path.join(sys.path[0], "tests/test_data_alerts.json")) as f:
+        json_alerts = f.read()
+
 
 
 class TestCase(unittest.TestCase):
