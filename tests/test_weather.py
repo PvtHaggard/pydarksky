@@ -35,10 +35,19 @@ else:
         json_alerts = f.read()
 
 
-
-class TestCase(unittest.TestCase):
+class TestBasic(unittest.TestCase):
     def test_weather_init(self):
         Weather(json_basic)
+
+
+class TestMinutely(unittest.TestCase):
+    def test_weather_init(self):
+        Weather(json_minutely)
+
+
+class TestAlerts(unittest.TestCase):
+    def test_weather_init(self):
+        Weather(json_alerts)
 
 
 if __name__ == '__main__':

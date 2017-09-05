@@ -18,13 +18,19 @@ class Weather:
     """
     Do not assume the existence of any property unless stated otherwise.
 
-    :param str json_raw:
+    :param str json_raw: JSON string
 
     :var dict json: [Required] JSON data returned by the Dark Sky API
-    :var float latitude: [Required] The requested latitude. Maybe different from the value passed to DarkSky class.
-    :var float longitude: [Required] The requested longitude. Maybe different from the value passed to DarkSky class.
-    :var str timezone: [Required] The IANA timezone name for the requested location. This is used for text summaries and for determining when hourly and daily data block objects begin.
-    :var float offset: [Deprecated] The current timezone offset in hours. (Use of this property will almost certainly result in Daylight Saving Time bugs. Please use timezone, instead.)
+    :var float latitude: [Required] The requested latitude.
+                         Maybe different from the value passed to DarkSky class.
+    :var float longitude: [Required] The requested longitude.
+                          Maybe different from the value passed to DarkSky class.
+    :var str timezone: [Required] The IANA timezone name for the requested location.
+                       This is used for text summaries and for determining when hourly
+                       and daily data block objects begin.
+    :var float offset: [Deprecated] The current timezone offset in hours.
+                       (Use of this property will almost certainly result in Daylight Saving Time bugs.
+                       Please use timezone, instead.)
 
     :var Currently currently: A class containing the current weather conditions at the requested location.
 
@@ -36,11 +42,13 @@ class Weather:
     :var str hourly_summary: A human-readable summary of the hourly data block.
     :var str hourly_icon: A machine-readable text summary of the daily data block.
 
-    :var list[Minutely] minutely: A class containing the current weather conditions minute-by-minute for the next hour.
+    :var list[Minutely] minutely: A class containing the current weather conditions
+                                  minute-by-minute for the next hour.
     :var str minutely_summary: A human-readable summary of the minutely data block.
     :var str minutely_icon: A machine-readable text summary of the daily data block.
 
-    :var Alert alerts: An alerts array, which, if present, contains any severe weather alerts pertinent to the requested location.
+    :var list[Alert] alerts: An alerts array, which, if present, contains any severe weather
+                             alerts pertinent to the requested location.
     """
 
     def __init__(self, json_raw):
@@ -81,11 +89,42 @@ class Weather:
             for data in self.json["minutely"]["data"]:
                 self.minutely.append(Minutely(data, self))
 
+        if "flags" in self.json:
+            self.flags = Flags(self.json["flags"], self)
+
         if "alerts" in self.json:
-            self.alerts = Alerts(self.json["alerts"], self)
+            self.alerts = []
+            for data in self.json["alerts"]:
+                self.alerts.append(Alerts(data, self))
+
+    def has_currently(self):
+        # type() -> bool
+        return hasattr(self, "currently")
+
+    def has_daily(self):
+        # type() -> bool
+        return hasattr(self, "daily")
+
+    def has_hourly(self):
+        # type() -> bool
+        return hasattr(self, "hourly")
+
+    def has_minutely(self):
+        # type() -> bool
+        return hasattr(self, "minutely")
+
+    def has_alerts(self):
+        # type() -> bool
+        return hasattr(self, "alerts")
 
 
 class WeatherData:
+    """
+    Do not assume the existent of any attributes.
+
+    A full list of possible attributes can be found on the Dark Sky developers page.
+    https://darksky.net/dev/docs#response-format
+    """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         self.parent = parent
@@ -94,27 +133,58 @@ class WeatherData:
 
 
 class Currently(WeatherData):
+    """
+    See WeatherData
+    """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         WeatherData.__init__(self, data, parent)
 
 
 class Daily(WeatherData):
+    """
+    See WeatherData
+    """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         WeatherData.__init__(self, data, parent)
 
 
 class Hourly(WeatherData):
+    """
+    See WeatherData
+    """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         WeatherData.__init__(self, data, parent)
 
 
 class Minutely(WeatherData):
+    """
+    See WeatherData
+    """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         WeatherData.__init__(self, data, parent)
+
+
+class Flags:
+    # TODO: Find out darksky-unavailable data type
+    """
+    :var darksky-unavailable: [optional] The presence of this property indicates that the Dark Sky data source
+                              supports the given location, but a temporary error (such as a radar station
+                              being down for maintenance) has made the data unavailable.
+    :var list[str] sources: This property contains an array of IDs for each data source
+                            utilized in servicing this request.
+    :var units units: Indicates the units which were used for the data in this request.
+    """
+    def __init__(self, data, parent=None):
+        # type:(dict, Weather) -> None
+        self.weather = parent
+        if "darksky-unavailable" in data:
+            self.darksky_unavailable = data["darksky-unavailable"]
+        self.sources = data["sources"]
+        self.units = data["units"]
 
 
 class Alerts:
@@ -127,11 +197,12 @@ class Alerts:
 
         * **advisory** (an individual should be aware of potentially severe weather)
         * **watch** (an individual should prepare for potentially severe weather)
-        * **warning** (an individual should take immediate action to protect themselves and others from potentially severe weather).
+        * **warning** (an individual should take immediate action to protect themselves
+            and others from potentially severe weather).
 
     :var int time: The UNIX time at which the alert was issued.
     :var str title: A brief description of the alert.
-    :var str uri: An HTTP(S) URI that one may refer to for detailed information about the alert.
+    :var str uri: A HTTP(S) URI that one may refer to for detailed information about the alert.
     """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None

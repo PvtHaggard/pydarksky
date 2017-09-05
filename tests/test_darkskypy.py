@@ -37,7 +37,7 @@ class TestCase(unittest.TestCase):
 
     def test_url_fail(self):
         darksky = DarkSky("0" * 32)
-        with self.assertRaises(AssertionError):
+        with self.assertRaises(TypeError):
             darksky.weather()
 
     def test_url_basic_pass(self):
@@ -78,7 +78,7 @@ class TestCase(unittest.TestCase):
 
     def test_const_units_pass(self):
         darksky = DarkSky("0" * 32)
-        self.assertEqual(darksky.UNITS, ["auto", "ca", "uk2", "ui", "si"])
+        self.assertEqual(darksky.UNITS, ("auto", "ca", "uk2", "ui", "si"))
 
     def test_const_langs_pass(self):
         darksky = DarkSky("0" * 32)
@@ -111,6 +111,12 @@ class TestCase(unittest.TestCase):
         darksky = DarkSky("0" * 32)
         with self.assertRaises(TypeError):
             darksky.exclude = 1234
+
+    def test_exclude_invert_pass(self):
+        darksky = DarkSky("0" * 32)
+        darksky.exclude = ["currently", "minutely", "hourly", "flags"]
+        darksky.exclude_invert()
+        self.assertEqual(darksky.exclude.sort(), ["daily", "alerts"].sort())
 
     def test_url_exclude_pass(self):
         url = "https://api.darksky.net/forecast/00000000000000000000000000000000/-34.9285," \

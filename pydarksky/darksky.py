@@ -22,12 +22,24 @@ class DarkSky(object):
     """
     :param str api_key: Darksky.net API key
 
-    :var list[str] _EXCLUDES: Valid Dark Sky API data excludes
+
 
     :var str api_key: Darksky.net API key
-    :var float latitude: latitude
-    :var float longitude: Darksky.net API key
+    :var float latitude: The requested latitude. Maybe different from the value returned from an API request
+    :var float longitude: The requested longitude. Maybe different from the value returned from an API request
+    :var date_time: The requested date/time.
+    :var bool extend:
+    :var str url:
+    :var int api_call_count:
+    :var str response_time: Server response time in ms
+    :var str response_date: Response date and time
+    :var str units: API response units type
+    :var str lang: API call response language
+    :var list[str] excludes: Data blocks to be excluded in API response
 
+    :var list[str] UNITS: Valid Dark Sky API response units
+    :var list[str] LANGS: Valid Dark Sky API response languages
+    :var list[str] EXCLUDES: Valid Dark Sky API data block exclusions
     """
     _LANGS = {"auto": "auto", "Arabic": "ar", "Azerbaijani": "az", "Belarusian": "be", "Bulgarian": "bg",
               "Bosnian": "bs", "Catalan": "ca", "Czech": "cs", "German": "de", "Greek": "el", "English": "en",
@@ -72,14 +84,21 @@ class DarkSky(object):
     @property
     def url(self):
         # type:() -> str
-        assert type(self.latitude) is float, "latitude must be <class 'float'>, is type {}".format(
-            type(self.latitude))
-        assert type(self.longitude) is float, "longitude must be <class 'float'>, is type {}".format(
-            type(self.longitude))
+        """Build and return the URL used to make a Dark Sky API call.
 
-        url = "https://api.darksky.net/forecast/{}/{},{}".format(self.api_key, self.latitude, self.longitude)
+        :return str: Dark Sky API URL
+        """
+        if not isinstance(self.latitude, float):
+            raise TypeError("latitude must be <class 'float'>, is type {}".format(type(self.latitude)))
 
-        if type(self._date_time) is datetime:
+        if not isinstance(self.longitude, float):
+            raise TypeError("longitude must be <class 'float'>, is type {}".format(type(self.longitude)))
+
+        url = "https://api.darksky.net/forecast/{key}/{lat},{lon}".format(key=self.api_key,
+                                                                          lat=self.latitude,
+                                                                          lon=self.longitude)
+
+        if isinstance(self._date_time, datetime):
             url += ",{:%Y-%m-%dT%H:%M:%S}".format(self._date_time)
 
         url += "?units={}".format(self.units)
@@ -110,8 +129,8 @@ class DarkSky(object):
 
     @property
     def EXCLUDES(self):
-        # type:() -> list
-        return ["currently", "minutely", "hourly", "daily", "alerts", "flags"]
+        # type:() -> tuple
+        return "currently", "minutely", "hourly", "daily", "alerts", "flags"
 
     @property
     def api_call_count(self):
@@ -147,19 +166,12 @@ class DarkSky(object):
 
     @property
     def UNITS(self):
-        # type:() -> list
-        return ["auto", "ca", "uk2", "ui", "si"]
+        # type:() -> tuple
+        return "auto", "ca", "uk2", "ui", "si"
 
     @property
     def units(self):
         # type:() -> str
-        """
-        Units to be returned by the Dark Sky API.
-        Valid values can be found in UNITS.
-
-        :return: Dark Sky unit type.
-        :rtype: str
-        """
         return self._units
 
     @property
@@ -196,10 +208,10 @@ class DarkSky(object):
     @exclude.setter
     def exclude(self, excludes):
         # type:(list) -> None
-        if type(excludes) is str:
+        if isinstance(excludes, str):
             if excludes in self.EXCLUDES:
                 self._exclude = [excludes]
-        elif type(excludes) is list:
+        elif isinstance(excludes, list):
             _e = []
             for exclude in excludes:
                 if exclude in self.EXCLUDES:
@@ -227,7 +239,7 @@ class DarkSky(object):
     @date_time.setter
     def date_time(self, date_time):
         # type:(datetime) -> None
-        if type(date_time) is not datetime:
+        if not isinstance(date_time, datetime):
             log.debug("datetime must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
             raise TypeError("excludes must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
         self._date_time = date_time
@@ -235,18 +247,14 @@ class DarkSky(object):
     def weather(self, latitude=None, longitude=None, date_time=None):
         # type:(float, float, datetime) -> Weather
         """
-
-        :param float or None latitude: Locations latitude
-        :param float or None longitude: Locations longitude
+        :param float latitude: Locations latitude
+        :param float longitude: Locations longitude
         :param datetime date_time: Date/time for historical weather data
 
-        :var str url: Dark Sky API URL.
+        :raises requests.exceptions.HTTPError: Raises on bad http response
+        :raises TypeError: Raises on invalid param types
 
-        :return: Weather data from the last successful weather() call.
-        :rtype: Weather
-
-        This may need reworking at some point. As it stands date_time must be set to None manually,
-        otherwise it will always receive historical data. I may not be thinking about this right.. It is 3am.
+        :return: Weather
         """
 
         if latitude is not None:
@@ -268,14 +276,16 @@ class DarkSky(object):
 
     def weather_last(self):
         # type:() -> Weather
-        """
-        :return: Weather data from the last successful weather() call.
+        """Weather data from the last successful weather() call.
+
         :rtype: Weather or None
         """
         return self._weather
 
     def exclude_invert(self):
         # type:() -> None
+        """Inverts the values in exclude
+        """
         tmp = self.exclude
         self._exclude = []
         for i in self.EXCLUDES:
