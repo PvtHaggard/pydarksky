@@ -18,20 +18,6 @@ WeatherData
 .. autoclass:: WeatherData
     :members:
 
-WeatherData Subclasses
-----------------------
-.. autoclass:: Currently
-    :members:
-
-.. autoclass:: Daily
-    :members:
-
-.. autoclass:: Hourly
-    :members:
-
-.. autoclass:: Minutely
-    :members:
-
 Alerts
 ------
 .. autoclass:: Alerts
