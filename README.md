@@ -44,10 +44,14 @@ date = pendulum.from_timestamp(weather.currently.time, tz=weather.timezone)
 print("Time: {}, Temp: {}\n".format(date.format("DD-MM-YY hh:mm"), weather.currently.temperature))
 
 # Iterating over forecast
-for day in weather.daily:
-    temp = day.temperature_max
-    date = pendulum.from_timestamp(day.time, tz=weather.timezone)
-    print("Date: {}, Max: {}".format(date.format("DD-MM-YY"), temp))
+if weather.has_daily():
+    for day in weather.daily:
+        date = pendulum.from_timestamp(day.time, tz=weather.timezone)
+        try:
+            temp = day.temperatureHigh
+            print("Date: {}, Max: {}".format(date.format("DD-MM-YY"), temp))
+        except AttributeError:
+            print("Date: {}, Max: 'no data'".format(date.format("DD-MM-YY")))
 ```
 
 <a href="https://darksky.net/poweredby/"> <img src="https://darksky.net/dev/img/attribution/poweredby-oneline.png" alt="Dark Sky" width="500px"/></a>
