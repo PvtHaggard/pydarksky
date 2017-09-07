@@ -239,10 +239,11 @@ class DarkSky(object):
     @date_time.setter
     def date_time(self, date_time):
         # type:(datetime) -> None
-        if not isinstance(date_time, datetime):
+        if isinstance(date_time, datetime) or date_time is None:
+            self._date_time = date_time
+        else:
             log.debug("datetime must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
             raise TypeError("excludes must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
-        self._date_time = date_time
 
     def weather(self, latitude=None, longitude=None, date_time=None):
         # type:(float, float, datetime) -> Weather
@@ -261,8 +262,8 @@ class DarkSky(object):
             self.latitude = latitude
         if longitude is not None:
             self.longitude = longitude
-        if date_time is not None:
-            self.date_time = date_time
+
+        self.date_time = date_time
 
         url = self.url
 
