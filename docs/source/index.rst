@@ -1,10 +1,28 @@
-Welcome to pydarksky's documentation!
-=====================================
+.. currentmodule:: pydarksky
 
-.. toctree::
-   :maxdepth: 2
+API Reference
+=============
 
-   api
+Darksky
+-------
+.. autoclass:: DarkSky
+    :members:
+
+Weather
+-------
+.. autoclass:: Weather
+    :members:
+
+WeatherData
+-----------
+.. autoclass:: WeatherData
+    :members:
+
+Alerts
+------
+.. autoclass:: Alerts
+    :members:
+
 
 
 
@@ -12,5 +30,4 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`

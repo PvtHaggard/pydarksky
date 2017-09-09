@@ -22,8 +22,6 @@ class DarkSky(object):
     """
     :param str api_key: Darksky.net API key
 
-
-
     :var str api_key: Darksky.net API key
     :var float latitude: The requested latitude. Maybe different from the value returned from an API request
     :var float longitude: The requested longitude. Maybe different from the value returned from an API request
@@ -302,7 +300,26 @@ class DarkSky(object):
 
     def exclude_invert(self):
         # type:() -> None
-        """Inverts the values in exclude
+        """Inverts the values in self.exclude
+
+        .. code-block:: python
+
+            >>> import pydarksky
+            >>> darksky = pydarksky.DarkSky('0' * 32)
+
+            >>> darksky.EXCLUDES
+            ('currently', 'minutely', 'hourly', 'daily', 'alerts', 'flags')
+
+            >>> darksky.exclude = ["alerts", "flags"]
+
+            >>> darksky.exclude
+            ['alerts', 'flags']
+
+            >>> darksky.exclude_invert()
+
+            >>> darksky.exclude
+            ['currently', 'minutely', 'hourly', 'daily']
+
         """
         tmp = self.exclude
         self._exclude = []
