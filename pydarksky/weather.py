@@ -16,7 +16,9 @@ log = logging.getLogger("pydarksky")
 
 class Weather:
     """
-    Do not assume the existence of any property unless stated otherwise.
+    .. Note::
+
+        Do not assume the existence of any property unless stated otherwise.
 
     :param str json_raw: JSON string
 
@@ -120,7 +122,9 @@ class Weather:
 
 class WeatherData:
     """
-    Do not assume the existent of any attributes.
+    .. Note::
+
+        Do not assume the existence of any property unless stated otherwise.
 
     A full list of possible attributes can be found on the Dark Sky developers page.
     https://darksky.net/dev/docs#response-format

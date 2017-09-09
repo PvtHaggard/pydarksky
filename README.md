@@ -13,9 +13,9 @@ This is the first python library I have written so any advice and help will be g
 ## TODO:
 * Documentation
     * Docstrings
+    * Code comments
     * Readme
-* Unittests
-    * Find weather data with alerts/minutely data for testing
+* Rewrite unittests
 * Example uses
 
 

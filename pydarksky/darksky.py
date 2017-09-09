@@ -84,9 +84,7 @@ class DarkSky(object):
     @property
     def url(self):
         # type:() -> str
-        """Build and return the URL used to make a Dark Sky API call.
-
-        :return str: Dark Sky API URL
+        """Build and returns a URL used to make a Dark Sky API call.
         """
         if not isinstance(self.latitude, float):
             raise TypeError("latitude must be <class 'float'>, is type {}".format(type(self.latitude)))
@@ -255,7 +253,26 @@ class DarkSky(object):
         :raises requests.exceptions.HTTPError: Raises on bad http response
         :raises TypeError: Raises on invalid param types
 
-        :return: Weather
+        :rtype: Weather
+
+        Example uses
+
+        .. code-block:: python
+
+            # DarkSky instantiation
+            darksky = pydarksky.DarkSky(api_key)
+
+            # Pre-define values
+            darksky.latitude = -34.9285
+            darksky.longitude = 138.6005
+            darksky.weather()
+
+            # Pass values as params
+            darksky.weather(latitude=-34.9285, longitude=138.6005)
+
+            # Pass values from dict
+            kwargs = {"longitude": 138.6005, "latitude": -34.9285}
+            darksky.weather(**kwargs)
         """
 
         if latitude is not None:
