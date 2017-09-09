@@ -8,10 +8,10 @@ from .weather import Weather
 __author__ = "PvtHaggard"
 
 __license__ = "GPLv3"
-__version__ = "N/A"
+__version__ = "1.0"
 __maintainer__ = "PvtHaggard"
 __email__ = "pvtgaggard@gmail.com"
-__status__ = "Development Pre-alpha"
+__status__ = "Release"
 
 log = logging.getLogger("pydarksky")
 
