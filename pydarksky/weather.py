@@ -135,6 +135,22 @@ class WeatherData:
         for field, value in data.items():
             setattr(self, field, value)
 
+    def __getattr__(self, attribute):
+        valid_attributes = ['humidity', 'temperature', 'apparentTemperature', 'dewPoint', 'cloudCover',
+                            'ozone', 'windBearing', 'precipIntensity', 'pressure', 'icon', 'parent',
+                            'windGust', 'summary', 'time', 'uvIndex', 'windSpeed', 'precipProbability', "nearestStormDistance"]
+
+        if attribute not in valid_attributes:
+            log.debug("'{}' object has no attribute '{}'".format(type(self).__name__, attribute))
+            raise AttributeError("'{}' object has no attribute '{}'".format(type(self).__name__, attribute))
+
+        try:
+            return self.__getattribute__(attribute)
+        except AttributeError:
+            log.debug("'{}' instance has no data for attribute '{}'".format(type(self).__name__, attribute))
+            raise NoDataError("'{}' instance has no data for attribute '{}'".format(type(self).__name__,
+                                                                                    attribute))
+
 
 class Currently(WeatherData):
     """
@@ -218,3 +234,8 @@ class Alerts:
         self.time = data["time"]
         self.title = data["title"]
         self.uri = data["uri"]
+
+
+class NoDataError(Exception):
+    def __init__(self, msg):
+        super(NoDataError, self).__init__(msg)

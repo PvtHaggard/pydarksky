@@ -6,10 +6,9 @@ import os
 
 sys.path.insert(0, os.path.abspath("."))
 
-from pydarksky import DarkSky
-from pydarksky import Weather
+from pydarksky import DarkSky, Weather, NoDataError
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 logging.getLogger("darkskypy")
 
 # For local testing
@@ -38,6 +37,20 @@ else:
 class TestBasic(unittest.TestCase):
     def test_weather_init(self):
         Weather(json_basic)
+
+    def test_get_attribute_data(self):
+        weather = Weather(json_basic)
+        var = weather.currently.temperature
+
+    def test_get_attribute_no_data(self):
+        weather = Weather(json_basic)
+        with self.assertRaises(NoDataError):
+            var = weather.currently.nearestStormDistance
+
+    def test_get_attribute_no_attribute(self):
+        weather = Weather(json_basic)
+        with self.assertRaises(AttributeError):
+            var = weather.currently.fail
 
 
 class TestMinutely(unittest.TestCase):
