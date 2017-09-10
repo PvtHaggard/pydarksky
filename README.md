@@ -54,4 +54,22 @@ if weather.has_daily():
             print("Date: {}, Max: 'no data'".format(date.format("DD-MM-YY")))
 ```
 
+## Getting weather
+```python
+# DarkSky instantiation
+darksky = pydarksky.DarkSky(api_key)
+
+# Pre-define values
+darksky.latitude = -34.9285
+darksky.longitude = 138.6005
+darksky.weather()
+
+# Pass values as params
+darksky.weather(latitude=-34.9285, longitude=138.6005)
+
+# Pass values from dict
+kwargs = {"longitude": 138.6005, "latitude": -34.9285}
+darksky.weather(**kwargs)
+```
+
 <a href="https://darksky.net/poweredby/"> <img src="https://darksky.net/dev/img/attribution/poweredby-oneline.png" alt="Dark Sky" width="500px"/></a>
