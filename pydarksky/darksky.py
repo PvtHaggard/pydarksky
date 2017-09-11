@@ -326,3 +326,18 @@ class DarkSky(object):
         for i in self.EXCLUDES:
             if i not in tmp:
                 self._exclude.append(i)
+
+
+def weather(api_key, latitude, longitude, date_time=None):
+    # type:(str, float, float) -> Weather
+    """
+    This is a shortcut method that can be used to perform a basic weather request with the default settings.
+
+    :param str api_key: Darksky.net API key
+    :param float latitude: The requested latitude. Maybe different from the value returned from an API request
+    :param float longitude: The requested longitude. Maybe different from the value returned from an API request
+    :param date_time: The requested date/time.
+
+    :rtype: Weather
+    """
+    return DarkSky(api_key).weather(latitude, longitude, date_time)
