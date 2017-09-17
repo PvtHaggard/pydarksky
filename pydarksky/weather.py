@@ -29,9 +29,6 @@ class Weather:
     :var str timezone: [Required] The IANA timezone name for the requested location.
                        This is used for text summaries and for determining when hourly
                        and daily data block objects begin.
-    :var float offset: [Deprecated] The current timezone offset in hours.
-                       (Use of this property will almost certainly result in Daylight Saving Time bugs.
-                       Please use timezone, instead.)
 
     :var Currently currently: A class containing the current weather conditions at the requested location.
 
@@ -58,7 +55,6 @@ class Weather:
         self.latitude = self.json["latitude"]
         self.longitude = self.json["longitude"]
         self.timezone = self.json["timezone"]
-        self.offset = self.json["offset"]
 
         if "currently" in self.json:
             self.currently = Currently(self.json["currently"], self)
