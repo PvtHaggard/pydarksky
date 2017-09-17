@@ -222,7 +222,12 @@ class DarkSky(object):
     @lang.setter
     def lang(self, language):
         # type:(str) -> None
-        self._lang = self._LANGS[language]
+        if language in self._LANGS.keys():
+            self._lang = self._LANGS[language]
+        elif language in self._LANGS.values():
+            self._lang = language
+        else:
+            raise ValueError("{} is not a valid response language".format(language))
 
     @units.setter
     def units(self, unit):
