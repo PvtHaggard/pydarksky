@@ -159,6 +159,12 @@ class Currently(WeatherData):
         # type:(dict, Weather) -> None
         WeatherData.__init__(self, data, parent)
 
+    @staticmethod
+    def __dir__():
+        return sorted(["apparentTemperature", "cloudCover", "dewPoint", "humidity", "icon",
+                       "nearestStormBearing", "nearestStormDistance", "ozone", "precipIntensity",
+                       "precipProbability", "precipType", "pressure", "summary", "temperature", "time",
+                       "uvIndex", "visibility", "windBearing", "windGust", "windSpeed"])
 
 class Daily(WeatherData):
     """
@@ -167,6 +173,15 @@ class Daily(WeatherData):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         WeatherData.__init__(self, data, parent)
+    @staticmethod
+    def __dir__():
+        return sorted(["apparentTemperatureHigh", "apparentTemperatureHighTime", "apparentTemperatureLow",
+                       "apparentTemperatureLowTime", "cloudCover", "dewPoint", "humidity", "icon",
+                       "moonPhase", "ozone", "precipAccumulation", "precipIntensity", "precipIntensityMax",
+                       "precipIntensityMaxTime", "precipProbability", "precipType", "pressure", "summary",
+                       "sunriseTime", "sunsetTime", "temperatureHigh", "temperatureHighTime",
+                       "temperatureLow", "temperatureLowTime", "time", "uvIndex", "uvIndexTime",
+                       "visibility", "windBearing", "windGust", "windSpeed"])
 
 
 class Hourly(WeatherData):
@@ -176,6 +191,12 @@ class Hourly(WeatherData):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         WeatherData.__init__(self, data, parent)
+    @staticmethod
+    def __dir__():
+        return sorted(["apparentTemperature", "cloudCover", "dewPoint", "humidity", "icon", "ozone",
+                       "precipAccumulation", "precipIntensity", "precipProbability", "precipType", "pressure",
+                       "summary", "temperature", "time", "uvIndex", "visibility", "windBearing",
+                       "windGust", "windSpeed"])
 
 
 class Minutely(WeatherData):
@@ -185,6 +206,11 @@ class Minutely(WeatherData):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         WeatherData.__init__(self, data, parent)
+    @staticmethod
+    def __dir__():
+        return sorted(["apparentTemperature", "cloudCover", "dewPoint", "humidity", "icon", "ozone",
+                       "precipIntensity", "precipProbability", "precipType", "pressure", "summary", "time",
+                       "uvIndex", "visibility", "windBearing", "windGust", "windSpeed"])
 
 
 class Flags:
