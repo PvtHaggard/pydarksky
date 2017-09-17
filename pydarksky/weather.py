@@ -115,15 +115,7 @@ class Weather:
         return hasattr(self, "alerts")
 
 
-class WeatherData:
-    """
-    .. Note::
-
-        Do not assume the existence of any property unless stated otherwise.
-
-    A full list of possible attributes can be found on the Dark Sky developers page.
-    https://darksky.net/dev/docs#response-format
-    """
+class DataBlock:
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         self.parent = parent
@@ -147,13 +139,13 @@ class WeatherData:
                                                                                     attribute))
 
 
-class Currently(WeatherData):
+class Currently(DataBlock):
     """
     See WeatherData
     """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
-        WeatherData.__init__(self, data, parent)
+        DataBlock.__init__(self, data, parent)
 
     @staticmethod
     def __dir__():
@@ -162,13 +154,15 @@ class Currently(WeatherData):
                        "precipProbability", "precipType", "pressure", "summary", "temperature", "time",
                        "uvIndex", "visibility", "windBearing", "windGust", "windSpeed"])
 
-class Daily(WeatherData):
+
+class Daily(DataBlock):
     """
     See WeatherData
     """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
-        WeatherData.__init__(self, data, parent)
+        DataBlock.__init__(self, data, parent)
+
     @staticmethod
     def __dir__():
         return sorted(["apparentTemperatureHigh", "apparentTemperatureHighTime", "apparentTemperatureLow",
@@ -180,13 +174,14 @@ class Daily(WeatherData):
                        "visibility", "windBearing", "windGust", "windSpeed"])
 
 
-class Hourly(WeatherData):
+class Hourly(DataBlock):
     """
     See WeatherData
     """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
-        WeatherData.__init__(self, data, parent)
+        DataBlock.__init__(self, data, parent)
+
     @staticmethod
     def __dir__():
         return sorted(["apparentTemperature", "cloudCover", "dewPoint", "humidity", "icon", "ozone",
@@ -195,13 +190,14 @@ class Hourly(WeatherData):
                        "windGust", "windSpeed"])
 
 
-class Minutely(WeatherData):
+class Minutely(DataBlock):
     """
     See WeatherData
     """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
-        WeatherData.__init__(self, data, parent)
+        DataBlock.__init__(self, data, parent)
+
     @staticmethod
     def __dir__():
         return sorted(["apparentTemperature", "cloudCover", "dewPoint", "humidity", "icon", "ozone",
