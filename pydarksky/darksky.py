@@ -283,7 +283,7 @@ class DarkSky(object):
 
         log.debug(url)
 
-        self._response = requests.get(url, headers={"Accept-Encoding": "gzip"})
+        self._response = requests.get(url, headers={"Accept-Encoding": "gzip"}, timeout=5)
         self._response.raise_for_status()
 
         self._weather = Weather(self._response.text)
