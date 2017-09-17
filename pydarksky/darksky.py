@@ -215,6 +215,8 @@ class DarkSky(object):
                     log.debug("'{}' is not a valid exclude value".format(exclude))
                     raise ValueError("'{}' is not a valid exclude value".format(exclude))
             self._exclude = _e
+        elif excludes is None:
+            self._exclude = None
         else:
             log.debug("excludes must be type '<class 'str'>' is type '{}'".format(type(excludes)))
             raise TypeError("excludes must be type '<class 'str'>' is type '{}'".format(type(excludes)))
