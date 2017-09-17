@@ -123,20 +123,13 @@ class DataBlock:
             setattr(self, field, value)
 
     def __getattr__(self, attribute):
-        valid_attributes = ['humidity', 'temperature', 'apparentTemperature', 'dewPoint', 'cloudCover',
-                            'ozone', 'windBearing', 'precipIntensity', 'pressure', 'icon', 'parent',
-                            'windGust', 'summary', 'time', 'uvIndex', 'windSpeed', 'precipProbability', "nearestStormDistance"]
-
-        if attribute not in valid_attributes:
+        if attribute not in dir(self):
             log.debug("'{}' object has no attribute '{}'".format(type(self).__name__, attribute))
             raise AttributeError("'{}' object has no attribute '{}'".format(type(self).__name__, attribute))
 
-        try:
-            return self.__getattribute__(attribute)
-        except AttributeError:
-            log.debug("'{}' instance has no data for attribute '{}'".format(type(self).__name__, attribute))
-            raise NoDataError("'{}' instance has no data for attribute '{}'".format(type(self).__name__,
-                                                                                    attribute))
+        log.debug("'{}' instance has no data for attribute '{}'".format(type(self).__name__, attribute))
+        raise NoDataError("'{}' instance has no data for attribute '{}'".format(type(self).__name__,
+                                                                                attribute))
 
 
 class Currently(DataBlock):
