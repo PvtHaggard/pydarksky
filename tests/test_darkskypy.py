@@ -54,7 +54,7 @@ class TestCase(unittest.TestCase):
 
     def test_lang_fail(self):
         darksky = DarkSky("0" * 32)
-        with self.assertRaises(KeyError):
+        with self.assertRaises(ValueError):
             darksky.lang = "bad key"
 
     def test_url_lang_pass(self):
