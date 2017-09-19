@@ -263,5 +263,12 @@ class Alerts:
 
 
 class NoDataError(Exception):
-    def __init__(self, msg):
+    def __init__(self, msg, attribute):
         super(NoDataError, self).__init__(msg)
+        self.attribute = attribute
+
+
+class RequiredDataError(Exception):
+    def __init__(self, msg, attribute):
+        super(RequiredDataError, self).__init__(msg)
+        self.attribute = attribute
