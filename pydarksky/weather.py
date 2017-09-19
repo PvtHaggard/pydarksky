@@ -52,9 +52,12 @@ class Weather:
     def __init__(self, json_raw):
         # type:(str) -> None
         self.json = json.loads(json_raw)
-        self.latitude = self.json["latitude"]
-        self.longitude = self.json["longitude"]
-        self.timezone = self.json["timezone"]
+        try:
+            self.latitude = self.json["latitude"]
+            self.longitude = self.json["longitude"]
+            self.timezone = self.json["timezone"]
+        except KeyError as e:
+            raise RequiredDataError("JSON missing required attribute '{}'".format(e.args[0]), e.args[0])
 
         if "currently" in self.json:
             self.currently = Currently(self.json["currently"], self)
@@ -229,8 +232,12 @@ class Flags:
         self.weather = parent
         if "darksky-unavailable" in data:
             self.darksky_unavailable = data["darksky-unavailable"]
-        self.sources = data["sources"]
-        self.units = data["units"]
+
+        try:
+            self.sources = data["sources"]
+            self.units = data["units"]
+        except KeyError as e:
+            raise RequiredDataError("JSON missing required attribute '{}'".format(e.args[0]), e.args[0])
 
 
 class Alerts:
@@ -253,13 +260,16 @@ class Alerts:
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         self.weather = parent
-        self.description = data["description"]
-        self.expires = data["expires"]
-        self.regions = data["regions"]
-        self.severity = data["severity"]
-        self.time = data["time"]
-        self.title = data["title"]
-        self.uri = data["uri"]
+        try:
+            self.description = data["description"]
+            self.expires = data["expires"]
+            self.regions = data["regions"]
+            self.severity = data["severity"]
+            self.time = data["time"]
+            self.title = data["title"]
+            self.uri = data["uri"]
+        except KeyError as e:
+            raise RequiredDataError("JSON missing required attribute '{}'".format(e.args[0]), e.args[0])
 
 
 class NoDataError(Exception):
