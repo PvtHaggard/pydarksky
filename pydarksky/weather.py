@@ -141,6 +141,10 @@ class Currently(DataBlock):
         DataBlock.__init__(self, data, parent)
 
     @staticmethod
+    def __name__():
+        return "Currently"
+
+    @staticmethod
     def __dir__():
         return sorted(["apparentTemperature", "cloudCover", "dewPoint", "humidity", "icon",
                        "nearestStormBearing", "nearestStormDistance", "ozone", "precipIntensity",
@@ -155,6 +159,10 @@ class Daily(DataBlock):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         DataBlock.__init__(self, data, parent)
+
+    @staticmethod
+    def __name__():
+        return "Daily"
 
     @staticmethod
     def __dir__():
@@ -176,6 +184,10 @@ class Hourly(DataBlock):
         DataBlock.__init__(self, data, parent)
 
     @staticmethod
+    def __name__():
+        return "Hourly"
+
+    @staticmethod
     def __dir__():
         return sorted(["apparentTemperature", "cloudCover", "dewPoint", "humidity", "icon", "ozone",
                        "precipAccumulation", "precipIntensity", "precipProbability", "precipType", "pressure",
@@ -190,6 +202,10 @@ class Minutely(DataBlock):
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
         DataBlock.__init__(self, data, parent)
+
+    @staticmethod
+    def __name__():
+        return "Minutely"
 
     @staticmethod
     def __dir__():
