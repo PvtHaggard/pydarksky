@@ -127,12 +127,12 @@ class DataBlock:
 
     def __getattr__(self, attribute):
         if attribute not in dir(self):
-            log.debug("'{}' object has no attribute '{}'".format(type(self).__name__, attribute))
-            raise AttributeError("'{}' object has no attribute '{}'".format(type(self).__name__, attribute))
+            log.debug("'{}' object has no attribute '{}'".format(self.__name__(), attribute))
+            raise AttributeError("'{}' object has no attribute '{}'".format(self.__name__(), attribute))
 
-        log.debug("'{}' instance has no data for attribute '{}'".format(type(self).__name__, attribute))
-        raise NoDataError("'{}' instance has no data for attribute '{}'".format(type(self).__name__,
-                                                                                attribute))
+        log.debug("'{}' instance has no data for attribute '{}'".format(self.__name__(), attribute))
+        raise NoDataError("'{}' instance has no data for attribute '{}'".format(self.__name__(), attribute),
+                          attribute)
 
 
 class Currently(DataBlock):
