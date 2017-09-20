@@ -218,8 +218,8 @@ class DarkSky(object):
         elif excludes is None:
             self._exclude = None
         else:
-            log.debug("excludes must be type '<class 'str'>' is type '{}'".format(type(excludes)))
-            raise TypeError("excludes must be type '<class 'str'>' is type '{}'".format(type(excludes)))
+            log.debug("excludes must be type '<class 'list'>' or '<class 'str'>' is type '{}'".format(type(excludes)))
+            raise TypeError("excludes must be type '<class 'list'>' or '<class 'str'>' is type '{}'".format(type(excludes)))
 
     @lang.setter
     def lang(self, language):
@@ -229,13 +229,13 @@ class DarkSky(object):
         elif language in self._LANGS.values():
             self._lang = language
         else:
-            raise ValueError("{} is not a valid response language".format(language))
+            raise ValueError("'{}' is not a valid response language".format(language))
 
     @units.setter
     def units(self, unit):
         # type:(str) -> None
         if unit not in self.UNITS:
-            raise ValueError("{} is not a valid unit type".format(unit))
+            raise ValueError("'{}' is not a valid unit type".format(unit))
         self._units = unit
 
     @date_time.setter
@@ -244,8 +244,8 @@ class DarkSky(object):
         if isinstance(date_time, datetime) or date_time is None:
             self._date_time = date_time
         else:
-            log.debug("datetime must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
-            raise TypeError("excludes must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
+            log.debug("date_time must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
+            raise TypeError("date_time must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
 
     def weather(self, latitude=None, longitude=None, date_time=None):
         # type:(float, float, datetime) -> Weather
