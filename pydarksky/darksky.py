@@ -206,6 +206,9 @@ class DarkSky(object):
         if isinstance(excludes, str):
             if excludes in self.EXCLUDES:
                 self._exclude = [excludes]
+            else:
+                log.debug("'{}' is not a valid exclude value".format(exclude))
+                raise ValueError("'{}' is not a valid exclude value".format(exclude))
         elif isinstance(excludes, list):
             _e = []
             for exclude in excludes:
