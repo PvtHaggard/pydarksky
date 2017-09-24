@@ -13,14 +13,28 @@ Weather
 .. autoclass:: Weather
     :members:
 
-WeatherData
+DataBlocks
 -----------
-.. autoclass:: WeatherData
+.. autoclass:: Now
+    :members:
+
+.. autoclass:: Day
+    :members:
+
+.. autoclass:: Hour
+    :members:
+
+.. autoclass:: Minute
     :members:
 
 Alerts
 ------
-.. autoclass:: Alerts
+.. autoclass:: Alert
+    :members:
+
+Flags
+-----
+.. autoclass:: Flag
     :members:
 
 

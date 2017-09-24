@@ -37,11 +37,11 @@ pendulum.set_formatter("alternative")
 weather = pydarksky.weather(api_key=API_KEY, latitude=-34.9285, longitude=138.6005)
 
 # Current weather
-if weather.has_currently():
+if weather.has_now():
     print("Now:")
-    date = pendulum.from_timestamp(weather.currently.time, tz=weather.timezone)
+    date = pendulum.from_timestamp(weather.now.time, tz=weather.timezone)
     try:
-        temperature = weather.currently.temperature
+        temperature = weather.now.temperature
     except pydarksky.NoDataError:
         temperature = "No Data"
 
@@ -61,25 +61,35 @@ if weather.has_daily():
         print("Time: {}, Temp: {}".format(date.format("DD-MM-YY"), temperature))
 ```
 
-### Getting weather
+### Weather request
 ```python
 # DarkSky instantiation
-darksky = pydarksky.DarkSky(api_key)
+>>> darksky = pydarksky.DarkSky(API_KEY)
 
 # Pre-define values
-darksky.latitude = -34.9285
-darksky.longitude = 138.6005
-darksky.weather()
+>>> darksky.latitude = -34.9285
+>>> darksky.longitude = 138.6005
+>>> weather = darksky.weather()
 
 # Pass values as params
-darksky.weather(latitude=-34.9285, longitude=138.6005)
+>>> weather = darksky.weather(latitude=-34.9285, longitude=138.6005)
 
 # Pass values from dict
-kwargs = {"longitude": 138.6005, "latitude": -34.9285}
-darksky.weather(**kwargs)
+>>> kwargs = {"longitude": 138.6005, "latitude": -34.9285}
+>>> weather = darksky.weather(**kwargs)
 ```
 
-### Time Machine Request
+### Historical Request
+Unlike the longitude/latitude the date must be passed every time a historical request is wanted.
+Darksky.net will use the locations timezone by default so specifying it yourself is not required.
+
+```python
+>>> import pydarksky
+>>> from datetime import datetime
+>>> darksky = pydarksky.DarkSky(API_KEY)
+
+>>> darksky.weather(latitude=-34.9285, longitude=138.6005, date=datetime(2017, 1, 1))
+```
 
 ### Setting data blocks to exclude from response
 You can opt to exclude specific data blocks from the API response by setting the `DarkSky.exclude` attribute to one or more of the valid values found in `DarkSky.EXCLUDES`. Excluding data blocks can be used to reduce server response latency.
@@ -88,7 +98,7 @@ You can opt to exclude specific data blocks from the API response by setting the
 
 ```python
 >>> import pydarksky
->>> darksky = pydarksky.DarkSky('0' * 32)
+>>> darksky = pydarksky.DarkSky(API_KEY)
 
 >>> darksky.EXCLUDES
 ('currently', 'minutely', 'hourly', 'daily', 'alerts', 'flags')
@@ -96,6 +106,13 @@ You can opt to exclude specific data blocks from the API response by setting the
 >>> darksky.exclude = ["alerts", "flags"]
 >>> darksky.exclude
 ['alerts', 'flags']
+
+>>> darksky.exclude = "alerts"
+>>> darksky.exclude
+['alerts']
+
+>>> darksky.exclude = ["abc"]
+ValueError: 'abc' is not a valid exclude value
 
 >>> darksky.exclude_invert()
 >>> darksky.exclude
@@ -106,10 +123,57 @@ You can opt to exclude specific data blocks from the API response by setting the
 You can increase the hour-by-hour data returned from 48, to 168 by setting the `DarkSky.extend` attribute to `True`. The default value is `False`.
 
 ### Setting response language
+```python
+>>> import pydarksky
+>>> darksky = pydarksky.DarkSky(API_KEY)
+
+>>> darksky.LANGS
+['Arabic', 'Azerbaijani', 'Belarusian', 'Bosnian', 'Bulgarian', ...]
+
+>>> darksky.lang
+'auto'
+
+>>> darksky.lang = 'English'
+>>> darksky.lang
+'en'
+
+>>> darksky.lang = 'it'  # 'it' == 'Italian'
+>>> darksky.lang
+'it'
+
+>>> darksky.lang = "abc"
+ValueError: 'abc' is not a valid response language
+```
 
 
 ### Setting response units
 
+Valid units values:
+
+* **auto**: automatically select units based on geographic location
+* **ca**: same as si, except that windSpeed is in kilometers per hour
+* **uk2**: same as si, except that nearestStormDistance and visibility are in miles and windSpeed is in miles per hour
+* **us**: Imperial units (the default)
+* **si**: SI units
+
+
+```python
+>>> import pydarksky
+>>> darksky = pydarksky.DarkSky(API_KEY)
+
+>>> darksky.UNITS
+('auto', 'ca', 'uk2', 'ui', 'si')
+
+>>> darksky.units
+'auto'
+
+>>> darksky.units = "si"
+>>> darksky.units
+'si'
+
+>>> darksky.units = "abc"
+ValueError: 'abc' is not a valid unit type
+```
 
 
 

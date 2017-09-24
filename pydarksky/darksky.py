@@ -14,10 +14,16 @@ __email__ = "pvtgaggard@gmail.com"
 
 log = logging.getLogger("pydarksky")
 
+# TODO: Add ability to handle timezones
+# TODO: date_time should also take an unix timestamp
+"""
+Not entirely sure how this would work.
+Given that Darksky.net with use the locations timezone by default, the timestamp should be ETC/UTC time or
+local time and timezone. I don't know, timezones are confusing.
+"""
+
 
 class DarkSky(object):
-    # TODO: Add weather property to get last weather
-    # TODO: lang() should also accept any _LANGS values
     """
     :param str api_key: Darksky.net API key
 
@@ -34,9 +40,9 @@ class DarkSky(object):
     :var str lang: API call response language
     :var list[str] excludes: Data blocks to be excluded in API response
 
-    :var list[str] UNITS: Valid Dark Sky API response units
+    :var tuple[str] UNITS: Valid Dark Sky API response units
     :var list[str] LANGS: Valid Dark Sky API response languages
-    :var list[str] EXCLUDES: Valid Dark Sky API data block exclusions
+    :var tuple[str] EXCLUDES: Valid Dark Sky API data block exclusions
     """
     _LANGS = {"auto": "auto", "Arabic": "ar", "Azerbaijani": "az", "Belarusian": "be", "Bulgarian": "bg",
               "Bosnian": "bs", "Catalan": "ca", "Czech": "cs", "German": "de", "Greek": "el", "English": "en",
@@ -81,7 +87,8 @@ class DarkSky(object):
     @property
     def url(self):
         # type:() -> str
-        """Build and returns a URL used to make a Dark Sky API call.
+        """
+        Build and returns a URL used to make a Dark Sky API call.
         """
         url = "https://api.darksky.net/forecast/{key}/{lat},{lon}".format(key=self.api_key,
                                                                           lat=self.latitude,
@@ -204,6 +211,7 @@ class DarkSky(object):
                 log.debug("'{}' is not a valid exclude value".format(exclude))
                 raise ValueError("'{}' is not a valid exclude value".format(exclude))
         elif isinstance(excludes, list):
+            # Done this way to so self._exclude is not overridden if there is an exception
             _e = []
             for exclude in excludes:
                 if exclude in self.EXCLUDES:
@@ -261,19 +269,19 @@ class DarkSky(object):
         .. code-block:: python
 
             # DarkSky instantiation
-            darksky = pydarksky.DarkSky(api_key)
+            >>> darksky = pydarksky.DarkSky(api_key)
 
             # Pre-define values
-            darksky.latitude = -34.9285
-            darksky.longitude = 138.6005
-            darksky.weather()
+            >>> darksky.latitude = -34.9285
+            >>> darksky.longitude = 138.6005
+            >>> weather = darksky.weather()
 
             # Pass values as params
-            darksky.weather(latitude=-34.9285, longitude=138.6005)
+            >>> weather = darksky.weather(latitude=-34.9285, longitude=138.6005)
 
             # Pass values from dict
-            kwargs = {"longitude": 138.6005, "latitude": -34.9285}
-            darksky.weather(**kwargs)
+            >>> kwargs = {"longitude": 138.6005, "latitude": -34.9285}
+            >>> weather = darksky.weather(**kwargs)
         """
 
         # If params are default(None) check if latitude/longitude have already been defined(Not None)
@@ -304,7 +312,8 @@ class DarkSky(object):
 
     def weather_last(self):
         # type:() -> Weather
-        """Weather data from the last successful weather() call.
+        """
+        Weather data from the last successful weather() call.
 
         :rtype: Weather or None
         """
@@ -312,7 +321,8 @@ class DarkSky(object):
 
     def exclude_invert(self):
         # type:() -> None
-        """Inverts the values in self.exclude
+        """
+        Inverts the values in self.exclude
 
         .. code-block:: python
 

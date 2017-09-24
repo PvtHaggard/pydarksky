@@ -17,7 +17,7 @@ class Weather:
     """
     .. Note::
 
-        Do not assume the existence of any property unless stated otherwise.
+        Do not assume the existence of any attribute.
 
     :param str json_raw: JSON string
 
@@ -135,9 +135,32 @@ class DataBlock:
                           attribute)
 
 
-class Currently(DataBlock):
+class Now(DataBlock):
     """
-    See WeatherData
+    .. Note::
+
+        Do not assume the existence of any attribute.
+
+    :var apparentTemperature:
+    :var cloudCover:
+    :var dewPoint:
+    :var humidity:
+    :var icon:
+    :var nearestStormBearing:
+    :var nearestStormDistance:
+    :var ozone:
+    :var precipIntensity:
+    :var precipProbability:
+    :var precipType:
+    :var pressure:
+    :var summary:
+    :var temperature:
+    :var time:
+    :var uvIndex:
+    :var visibility:
+    :var windBearing:
+    :var windGust:
+    :var windSpeed:
     """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
@@ -157,7 +180,41 @@ class Currently(DataBlock):
 
 class Day(DataBlock):
     """
-    See WeatherData
+    .. Note::
+
+        Do not assume the existence of any attribute.
+
+    :var apparentTemperatureHigh:
+    :var apparentTemperatureHighTime:
+    :var apparentTemperatureLow:
+    :var apparentTemperatureLowTime:
+    :var cloudCover:
+    :var dewPoint:
+    :var humidity:
+    :var icon:
+    :var moonPhase:
+    :var ozone:
+    :var precipAccumulation:
+    :var precipIntensity:
+    :var precipIntensityMax:
+    :var precipIntensityMaxTime:
+    :var precipProbability:
+    :var precipType:
+    :var pressure:
+    :var summary:
+    :var sunriseTime:
+    :var sunsetTime:
+    :var temperatureHigh:
+    :var temperatureHighTime:
+    :var temperatureLow:
+    :var temperatureLowTime:
+    :var time:
+    :var uvIndex:
+    :var uvIndexTime:
+    :var visibility:
+    :var windBearing:
+    :var windGust:
+    :var windSpeed:
     """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
@@ -180,7 +237,29 @@ class Day(DataBlock):
 
 class Hour(DataBlock):
     """
-    See WeatherData
+    .. Note::
+
+        Do not assume the existence of any attribute.
+
+    :var apparentTemperature:
+    :var cloudCover:
+    :var dewPoint:
+    :var humidity:
+    :var icon:
+    :var ozone:
+    :var precipAccumulation:
+    :var precipIntensity:
+    :var precipProbability:
+    :var precipType:
+    :var pressure:
+    :var summary:
+    :var temperature:
+    :var time:
+    :var uvIndex:
+    :var visibility:
+    :var windBearing:
+    :var windGust:
+    :var windSpeed:
     """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
@@ -200,7 +279,27 @@ class Hour(DataBlock):
 
 class Minute(DataBlock):
     """
-    See WeatherData
+    .. Note::
+
+        Do not assume the existence of any attribute.
+
+    :var apparentTemperature:
+    :var cloudCover:
+    :var dewPoint:
+    :var humidity:
+    :var icon:
+    :var ozone:
+    :var precipIntensity:
+    :var precipProbability:
+    :var precipType:
+    :var pressure:
+    :var summary:
+    :var time:
+    :var uvIndex:
+    :var visibility:
+    :var windBearing:
+    :var windGust:
+    :var windSpeed:
     """
     def __init__(self, data, parent=None):
         # type:(dict, Weather) -> None
@@ -248,10 +347,9 @@ class Alert:
     :var str severity: The severity of the weather alert, will be one of the following values:
 
 
-        * **advisory** (an individual should be aware of potentially severe weather)
-        * **watch** (an individual should prepare for potentially severe weather)
-        * **warning** (an individual should take immediate action to protect themselves
-            and others from potentially severe weather).
+        * *advisory*
+        * *watch*
+        * *warning*
 
     :var int time: The UNIX time at which the alert was issued.
     :var str title: A brief description of the alert.
