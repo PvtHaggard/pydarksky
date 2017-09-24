@@ -60,7 +60,7 @@ class Weather:
             raise RequiredDataError("JSON missing required attribute '{}'".format(e.args[0]), e.args[0])
 
         if "currently" in self.json:
-            self.currently = Currently(self.json["currently"], self)
+            self.now = Now(self.json["currently"], self)
 
         if "daily" in self.json:
             self.daily = []
@@ -69,7 +69,7 @@ class Weather:
             if self.json["daily"].get("icon") is not None:
                 self.daily_icon = self.json["daily"].get("icon")
             for data in self.json["daily"]["data"]:
-                self.daily.append(Daily(data, self))
+                self.daily.append(Day(data, self))
 
         if "hourly" in self.json:
             self.hourly = []
@@ -78,7 +78,7 @@ class Weather:
             if self.json["hourly"].get("icon") is not None:
                 self.hourly_icon = self.json["hourly"].get("icon")
             for data in self.json["hourly"]["data"]:
-                self.hourly.append(Hourly(data, self))
+                self.hourly.append(Hour(data, self))
 
         if "minutely" in self.json:
             self.minutely = []
@@ -87,17 +87,17 @@ class Weather:
             if self.json["minutely"].get("icon") is not None:
                 self.minutely_icon = self.json["minutely"].get("icon")
             for data in self.json["minutely"]["data"]:
-                self.minutely.append(Minutely(data, self))
+                self.minutely.append(Minute(data, self))
 
         if "flags" in self.json:
-            self.flags = Flags(self.json["flags"], self)
+            self.flags = Flag(self.json["flags"], self)
 
         if "alerts" in self.json:
             self.alerts = []
             for data in self.json["alerts"]:
-                self.alerts.append(Alerts(data, self))
+                self.alerts.append(Alert(data, self))
 
-    def has_currently(self):
+    def has_now(self):
         # type() -> bool
         return hasattr(self, "currently")
 
@@ -145,7 +145,7 @@ class Currently(DataBlock):
 
     @staticmethod
     def __name__():
-        return "Currently"
+        return "Now"
 
     @staticmethod
     def __dir__():
@@ -155,7 +155,7 @@ class Currently(DataBlock):
                        "uvIndex", "visibility", "windBearing", "windGust", "windSpeed"])
 
 
-class Daily(DataBlock):
+class Day(DataBlock):
     """
     See WeatherData
     """
@@ -165,7 +165,7 @@ class Daily(DataBlock):
 
     @staticmethod
     def __name__():
-        return "Daily"
+        return "Day"
 
     @staticmethod
     def __dir__():
@@ -178,7 +178,7 @@ class Daily(DataBlock):
                        "visibility", "windBearing", "windGust", "windSpeed"])
 
 
-class Hourly(DataBlock):
+class Hour(DataBlock):
     """
     See WeatherData
     """
@@ -188,7 +188,7 @@ class Hourly(DataBlock):
 
     @staticmethod
     def __name__():
-        return "Hourly"
+        return "Hour"
 
     @staticmethod
     def __dir__():
@@ -198,7 +198,7 @@ class Hourly(DataBlock):
                        "windGust", "windSpeed"])
 
 
-class Minutely(DataBlock):
+class Minute(DataBlock):
     """
     See WeatherData
     """
@@ -208,7 +208,7 @@ class Minutely(DataBlock):
 
     @staticmethod
     def __name__():
-        return "Minutely"
+        return "Minute"
 
     @staticmethod
     def __dir__():
@@ -217,7 +217,7 @@ class Minutely(DataBlock):
                        "uvIndex", "visibility", "windBearing", "windGust", "windSpeed"])
 
 
-class Flags:
+class Flag:
     # TODO: Find out darksky-unavailable data type
     """
     :var darksky-unavailable: [optional] The presence of this property indicates that the Dark Sky data source
@@ -240,7 +240,7 @@ class Flags:
             raise RequiredDataError("JSON missing required attribute '{}'".format(e.args[0]), e.args[0])
 
 
-class Alerts:
+class Alert:
     """
     :var str description: A detailed description of the alert.
     :var int expires: The UNIX time at which the alert will expire.
