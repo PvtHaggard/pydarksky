@@ -83,12 +83,6 @@ class DarkSky(object):
         # type:() -> str
         """Build and returns a URL used to make a Dark Sky API call.
         """
-        if not isinstance(self.latitude, float):
-            raise TypeError("latitude must be <class 'float'>, is type {}".format(type(self.latitude)))
-
-        if not isinstance(self.longitude, float):
-            raise TypeError("longitude must be <class 'float'>, is type {}".format(type(self.longitude)))
-
         url = "https://api.darksky.net/forecast/{key}/{lat},{lon}".format(key=self.api_key,
                                                                           lat=self.latitude,
                                                                           lon=self.longitude)
@@ -282,9 +276,18 @@ class DarkSky(object):
             darksky.weather(**kwargs)
         """
 
-        if latitude is not None:
+        # If params are default(None) check if latitude/longitude have already been defined(Not None)
+        # Otherwise TypeError is raised
+        if latitude is None:
+            if self.latitude is None:
+                raise TypeError("latitude must be type '<class 'str'>' is None")
+        else:
             self.latitude = latitude
-        if longitude is not None:
+
+        if longitude is None:
+            if self.longitude is None:
+                raise TypeError("longitude must be type '<class 'str'>' is None")
+        else:
             self.longitude = longitude
 
         self.date_time = date_time
