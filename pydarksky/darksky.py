@@ -24,7 +24,7 @@ class DarkSky(object):
     :var str api_key: Darksky.net API key
     :var float latitude: The requested latitude. Maybe different from the value returned from an API request
     :var float longitude: The requested longitude. Maybe different from the value returned from an API request
-    :var date_time: The requested date/time.
+    :var datetime or str or int date: The requested date/time.
     :var bool extend:
     :var str url:
     :var int api_call_count:
@@ -51,11 +51,11 @@ class DarkSky(object):
         log.debug("Caution: Logging at debug level may expose API key")
 
         self._api_key = None
-        self._date_time = None
         self._latitude = None
         self._longitude = None
         self._response = None
         self._weather = None
+        self._date = None
         self._lang = self._LANGS["auto"]
         self._units = "auto"
         self._extend = False
@@ -87,8 +87,8 @@ class DarkSky(object):
                                                                           lat=self.latitude,
                                                                           lon=self.longitude)
 
-        if isinstance(self._date_time, datetime):
-            url += ",{:%Y-%m-%dT%H:%M:%S}".format(self._date_time)
+        if isinstance(self._date, datetime):
+            url += ",{:%Y-%m-%dT%H:%M:%S}".format(self._date)
 
         url += "?units={}".format(self.units)
 
@@ -164,9 +164,9 @@ class DarkSky(object):
         return self._units
 
     @property
-    def date_time(self):
+    def date(self):
         # type:() -> datetime
-        return self._date_time
+        return self._date
 
     @api_key.setter
     def api_key(self, api_key):
@@ -235,21 +235,21 @@ class DarkSky(object):
             raise ValueError("'{}' is not a valid unit type".format(unit))
         self._units = unit
 
-    @date_time.setter
-    def date_time(self, date_time):
+    @date.setter
+    def date(self, date):
         # type:(datetime) -> None
-        if isinstance(date_time, datetime) or date_time is None:
-            self._date_time = date_time
+        if isinstance(date, datetime) or date is None:
+            self._date = date
         else:
-            log.debug("date_time must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
-            raise TypeError("date_time must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
+            log.debug("date must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
+            raise TypeError("date must be type '<class 'datetime'>' is type '{}'".format(type(date_time)))
 
-    def weather(self, latitude=None, longitude=None, date_time=None):
+    def weather(self, latitude=None, longitude=None, date=None):
         # type:(float, float, datetime) -> Weather
         """
         :param float latitude: Locations latitude
         :param float longitude: Locations longitude
-        :param datetime date_time: Date/time for historical weather data
+        :param datetime or str or int date: Date/time for historical weather data
 
         :raises requests.exceptions.HTTPError: Raises on bad http response
         :raises TypeError: Raises on invalid param types
@@ -290,7 +290,7 @@ class DarkSky(object):
         else:
             self.longitude = longitude
 
-        self.date_time = date_time
+        self._date = date
 
         url = self.url
 
