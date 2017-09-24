@@ -13,7 +13,7 @@ from .weather import Flag
 
 from .weather import NoDataError
 
-__version__ = "1.0"
+__version__ = "2.0"
 __status__ = "Release"
 
 logging.getLogger(__name__).setLevel(logging.DEBUG)
