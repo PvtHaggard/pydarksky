@@ -12,6 +12,7 @@ from .weather import Alert
 from .weather import Flag
 
 from .weather import NoDataError
+from .weather import RequiredDataError
 
 __version__ = "2.0"
 __status__ = "Release"
