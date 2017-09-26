@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='pydarksky',
-      version='2.0',
+      version='2.0.1',
       description='Python wrapper for darksky.net weather service',
       url='https://github.com/PvtHaggard/pydarksky',
       author='PvtHaggard',

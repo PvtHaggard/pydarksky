@@ -14,7 +14,7 @@ from .weather import Flag
 from .weather import NoDataError
 from .weather import RequiredDataError
 
-__version__ = "2.0"
+__version__ = "2.0.1"
 __status__ = "Release"
 
 logging.getLogger(__name__).setLevel(logging.DEBUG)
